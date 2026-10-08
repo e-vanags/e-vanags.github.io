@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="lv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interešu profils</title>
+<style>
+:root{
+  --bg:#ffffff; --fg:#111111; --muted:#555555; --line:#000000; --soft:#e6e6e6; --soft2:#f4f4f4; --mid:#9a9a9a; --dark:#3a3a3a;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --bg:#141414; --fg:#eeeeee; --muted:#aaaaaa; --line:#dddddd; --soft:#333333; --soft2:#1f1f1f; --mid:#777777; --dark:#cfcfcf; }
+}
+:root[data-theme="dark"]{ --bg:#141414; --fg:#eeeeee; --muted:#aaaaaa; --line:#dddddd; --soft:#333333; --soft2:#1f1f1f; --mid:#777777; --dark:#cfcfcf; }
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--fg)}
+body{font-family:Georgia,"Times New Roman",serif;font-size:17px;line-height:1.5}
+h1,h2,h3,.mono,button,.meta{font-family:"Courier New",Courier,monospace}
+h1{font-size:1.5rem;margin:0 0 .6rem}
+h2{font-size:1.15rem;margin:2rem 0 .6rem;border-bottom:1px solid var(--line);padding-bottom:.25rem}
+h3{font-size:1rem;margin:1rem 0 .3rem}
+main{max-width:760px;margin:0 auto;padding:24px 16px 64px}
+.meta{font-size:.78rem;color:var(--muted)}
+.box{border:1px solid var(--line);padding:16px;margin:16px 0}
+button{font-size:.95rem;background:var(--bg);color:var(--fg);border:1px solid var(--line);padding:10px 14px;cursor:pointer;border-radius:0}
+button:hover,button:focus-visible{background:var(--soft)}
+button.primary{background:var(--fg);color:var(--bg)}
+button.primary:hover{background:var(--dark)}
+button:disabled{opacity:.4;cursor:default}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.hidden{display:none !important}
+/* jautājums */
+.progress{height:6px;border:1px solid var(--line);margin:8px 0 4px}
+.progress>div{height:100%;background:var(--fg);width:0}
+.stem{color:var(--muted);margin-top:28px}
+@media (max-width:520px){.keyhint{display:none}}
+.item{font-size:1.45rem;line-height:1.3;min-height:4.2em;margin:6px 0 18px}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.scale button{padding:14px 4px;font-size:.85rem;line-height:1.2;min-height:64px}
+.scale button.sel{background:var(--fg);color:var(--bg)}
+@media (max-width:520px){ .scale{grid-template-columns:1fr} .scale button{min-height:46px;text-align:left;padding:10px 14px} .item{font-size:1.25rem;min-height:3.5em} }
+/* rezultāti */
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:620px){ .charts{grid-template-columns:1fr} }
+svg text{font-family:"Courier New",Courier,monospace;fill:var(--fg)}
+.bars .b{display:grid;grid-template-columns:9.5em 1fr 2.6em;gap:8px;align-items:center;margin:6px 0}
+.bars .track{height:14px;border:1px solid var(--line)}
+.bars .fill{height:100%;background:var(--mid)}
+.bars .top .fill{background:var(--fg)}
+.bars .top .lbl{font-weight:bold}
+.bars .num{font-family:"Courier New",monospace;text-align:right}
+.tdesc{margin:4px 0 12px;color:var(--muted);font-size:.95rem}
+.prog{border:1px solid var(--line);padding:10px 12px;margin:8px 0}
+.prog .name{font-weight:bold}
+.prog .fac{font-size:.85rem;color:var(--muted)}
+.prog .fit{display:flex;align-items:center;gap:8px;margin-top:6px;font-family:"Courier New",monospace;font-size:.85rem}
+.prog .fit .track{flex:1;height:8px;border:1px solid var(--line)}
+.prog .fit .fill{height:100%;background:var(--mid)}
+.other{font-size:.88rem;color:var(--muted)}
+ul.jobs{margin:.3rem 0 0;padding-left:1.2rem}
+.note{font-size:.88rem;color:var(--muted)}
+.vers{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0}
+@media (max-width:520px){ .vers{grid-template-columns:1fr} }
+.ver{border:1px solid var(--line);padding:14px}
+.ver h3{margin:0 0 .2rem}
+.ver .st{font-family:"Courier New",monospace;font-size:.85rem;color:var(--muted);margin:.4rem 0 .7rem}
+.ver .row button{font-size:.85rem;padding:8px 10px}
+table.cmp{border-collapse:collapse;width:100%;font-size:.95rem}
+table.cmp th,table.cmp td{border:1px solid var(--line);padding:6px 8px;text-align:right}
+table.cmp th:first-child,table.cmp td:first-child{text-align:left}
+table.cmp th{font-family:"Courier New",monospace;font-weight:bold}
+.pilot{border:1px dashed var(--line);padding:10px;margin:12px 0;font-size:.85rem}
+footer{margin-top:40px;font-size:.78rem;color:var(--muted)}
+@media print{
+  .noprint{display:none !important}
+  body{font-size:11pt;background:#fff;color:#000}
+  main{max-width:none;padding:0}
+  .box,.prog{break-inside:avoid}
+  h2{break-after:avoid}
+}
+</style>
+</head>
+<body>
+<main>
+
+<!-- SĀKUMS -->
+<section id="intro">
+  <p class="meta noprint"><a href="./" style="color:var(--fg)">← Karjeras jautājumi</a></p>
+  <p class="meta">RTU STEAM · interešu profils · prototips</p>
+  <h1>Kas tev varētu patikt nākotnē?</h1>
+  <p>Šis rīks palīdz saprast, kāda veida darbi tevi interesē. Tu redzēsi dažādas darbības un atbildēsi, cik ļoti tev patiktu tās darīt. Beigās saņemsi savu interešu profilu, profesiju idejas un RTU studiju programmas, kas varētu tev atbilst.</p>
+  <div class="box">
+    <h3 id="instr_title"></h3>
+    <p id="instr_body" style="margin:0"></p>
+  </div>
+  <p class="note">Tavas atbildes netiek sūtītas nekur: tās glabājas tikai šajā ierīcē, un tu vari tās izdzēst jebkurā brīdī. Lapas apmeklējumi un pabeigto aptauju skaits tiek skaitīti anonīmi, bez sīkdatnēm.</p>
+  <h2>Izvēlies versiju</h2>
+  <p class="note">Abas versijas mēra tās pašas sešas intereses. Vari aizpildīt vienu vai abas, un tad redzēsi, cik līdzīgi ir rezultāti.</p>
+  <div class="vers" id="vers"></div>
+</section>
+
+<!-- JAUTĀJUMI -->
+<section id="quiz" class="hidden">
+  <div class="row" style="justify-content:space-between"><span class="meta" id="counter"></span><button id="btnBack" class="meta" style="padding:4px 10px">Atpakaļ</button></div>
+  <div class="progress"><div id="bar"></div></div>
+  <div class="stem" id="stem"></div>
+  <div class="item" id="itemText" aria-live="polite"></div>
+  <div class="scale" id="scale"></div>
+  <p class="meta keyhint" style="margin-top:14px">Vari atbildēt arī ar taustiņiem 1 līdz 5.</p>
+</section>
+
+<!-- REZULTĀTI -->
+<section id="results" class="hidden">
+  <p class="meta">RTU STEAM · interešu profils · <span id="resDate"></span></p>
+  <h1>Tavs interešu profils</h1>
+  <p class="meta" id="resVer"></p>
+  <p class="note" id="disclaimer"></p>
+  <div id="flat" class="box hidden"></div>
+
+  <div id="otherBox" class="box noprint hidden"></div>
+  <div id="cmpSec" class="hidden">
+    <h2>Abu versiju salīdzinājums</h2>
+    <div class="charts">
+      <div><svg id="hex2" viewBox="-30 0 380 300" role="img" aria-label="Abu versiju sešstūris"></svg>
+        <p class="meta">pelēks laukums: īsā versija · melna līnija: garā versija</p></div>
+      <div><table class="cmp" id="cmpTable"></table><p id="cmpText"></p></div>
+    </div>
+    <p class="note">Pārējie rezultāti zemāk ir no versijas, kuru skaties. Pārslēgties: <span id="cmpSwitch"></span></p>
+  </div>
+
+  <h2>Tavas intereses</h2>
+  <div class="charts">
+    <div><svg id="hex" viewBox="-30 0 380 300" role="img" aria-label="Interešu sešstūris"></svg></div>
+    <div class="bars" id="bars"></div>
+  </div>
+  <div id="topDesc"></div>
+
+  <h2>Kur tu atrodies darba pasaules kartē</h2>
+  <div class="charts">
+    <div><svg id="map" viewBox="-40 0 400 320" role="img" aria-label="Darba pasaules karte"></svg></div>
+    <div><p id="mapText"></p><p class="note">Karte apvieno visas sešas intereses divās asīs: vai tev vairāk patīk strādāt ar cilvēkiem vai ar lietām, un vai ar datiem un kārtību vai ar idejām un radīšanu. Jo tālāk no centra, jo skaidrāks virziens.</p></div>
+  </div>
+
+  <h2>Profesijas, ko vērts izpētīt</h2>
+  <div id="jobs"></div>
+
+  <h2>RTU studiju programmas, kas varētu tev atbilst</h2>
+  <p class="note">Atbilstība rāda, cik labi programmas interešu profils sakrīt ar tavējo. Tā nav prognoze par to, vai tev izdosies.</p>
+  <div id="progs"></div>
+  <div class="row noprint"><button id="btnAllProgs">Rādīt visas programmas</button></div>
+  <p class="note"><a id="progLink" target="_blank" rel="noopener">Visas RTU studiju programmas</a></p>
+
+  <h3>Citur Latvijā</h3>
+  <div id="other" class="other"></div>
+
+  <div id="pipelineBox" class="box noprint hidden">
+    <p style="margin-top:0"><b>Palīdzi mums uzlabot STEAM aktivitātes skolēniem.</b> Aizpildi īsu anonīmu aptauju (apmēram 5 minūtes).</p>
+    <a id="pipelineLink" target="_blank" rel="noopener"><button class="primary">Uz aptauju</button></a>
+  </div>
+
+  <h2 class="noprint">Saglabā savu rezultātu</h2>
+  <p class="note noprint">Rezultāts glabājas tikai šajā ierīcē. Mēs to neredzam un nesaglabājam.</p>
+  <div class="row noprint">
+    <button class="primary" id="btnPrint">Drukāt vai saglabāt PDF</button>
+    <button id="btnMail">Nosūtīt sev epastā</button>
+    <button id="btnHome">Uz sākumu</button>
+    <button id="btnAgain">Aizpildīt šo versiju vēlreiz</button>
+    <button id="btnDelete">Dzēst manus datus</button>
+  </div>
+  <div id="pilotRes" class="pilot noprint hidden">
+    <b class="mono">Aprobācijas režīms.</b> <button id="btnCsv">Lejupielādēt atbildes (CSV)</button>
+    <span class="meta">Fails tiek izveidots šajā ierīcē; nekas netiek nosūtīts.</span>
+  </div>
+  <footer id="foot"></footer>
+</section>
+
+</main>
+<script>
+const DATA = {"version": "V0_2", "scales": ["R", "I", "A", "S", "E", "C"], "items": {"R01": {"scale": "R", "en": "Test the quality of parts before shipment", "lv": "Pārbaudīt detaļu kvalitāti pirms to nosūtīšanas klientam"}, "R02": {"scale": "R", "en": "Lay brick or tile", "lv": "Mūrēt ķieģeļus vai likt flīzes"}, "R03": {"scale": "R", "en": "Work on an offshore oil-drilling rig", "lv": "Strādāt uz naftas urbšanas platformas jūrā"}, "R04": {"scale": "R", "en": "Assemble electronic parts", "lv": "Montēt elektronikas detaļas"}, "R05": {"scale": "R", "en": "Operate a grinding machine in a factory", "lv": "Strādāt ar slīpēšanas darbgaldu rūpnīcā"}, "R06": {"scale": "R", "en": "Fix a broken faucet", "lv": "Salabot bojātu ūdens krānu"}, "R07": {"scale": "R", "en": "Assemble products in a factory", "lv": "Montēt izstrādājumus rūpnīcā"}, "R08": {"scale": "R", "en": "Install flooring in houses", "lv": "Ieklāt grīdas segumu mājās"}, "R09": {"scale": "R", "en": "Build kitchen cabinets", "lv": "Izgatavot virtuves skapjus"}, "R10": {"scale": "R", "en": "Repair household appliances", "lv": "Remontēt sadzīves tehniku"}, "R11": {"scale": "R", "en": "Drive a truck to deliver packages to offices and homes", "lv": "Vadīt kravas automašīnu un piegādāt sūtījumus uz birojiem un mājām"}, "I01": {"scale": "I", "en": "Study the structure of the human body", "lv": "Pētīt cilvēka ķermeņa uzbūvi"}, "I02": {"scale": "I", "en": "Study animal behavior", "lv": "Pētīt dzīvnieku uzvedību"}, "I03": {"scale": "I", "en": "Do research on plants or animals", "lv": "Veikt pētījumus par augiem vai dzīvniekiem"}, "I04": {"scale": "I", "en": "Develop a new medical treatment or procedure", "lv": "Izstrādāt jaunu ārstēšanas metodi vai medicīnisku procedūru"}, "I05": {"scale": "I", "en": "Conduct biological research", "lv": "Veikt bioloģijas pētījumus"}, "I06": {"scale": "I", "en": "Study whales and other types of marine life", "lv": "Pētīt vaļus un citus jūras dzīvniekus"}, "I07": {"scale": "I", "en": "Work in a biology lab", "lv": "Strādāt bioloģijas laboratorijā"}, "I08": {"scale": "I", "en": "Make a map of the bottom of an ocean", "lv": "Kartēt okeāna dibenu"}, "I09": {"scale": "I", "en": "Develop a new medicine", "lv": "Izstrādāt jaunas zāles"}, "I10": {"scale": "I", "en": "Study ways to reduce water pollution", "lv": "Pētīt, kā samazināt ūdens piesārņojumu"}, "I11": {"scale": "I", "en": "Conduct chemical experiments", "lv": "Veikt ķīmijas eksperimentus"}, "I12": {"scale": "I", "en": "Examine blood samples using a microscope", "lv": "Izmeklēt asins paraugus ar mikroskopu"}, "I13": {"scale": "I", "en": "Develop a way to better predict the weather", "lv": "Izstrādāt veidu, kā precīzāk prognozēt laikapstākļus"}, "A01": {"scale": "A", "en": "Conduct a musical choir", "lv": "Diriģēt kori"}, "A02": {"scale": "A", "en": "Direct a play", "lv": "Režisēt teātra izrādi"}, "A03": {"scale": "A", "en": "Design artwork for magazines", "lv": "Veidot ilustrācijas un grafisko dizainu žurnāliem"}, "A04": {"scale": "A", "en": "Write a song", "lv": "Sacerēt dziesmu"}, "A05": {"scale": "A", "en": "Write books or plays", "lv": "Rakstīt grāmatas vai lugas"}, "A06": {"scale": "A", "en": "Play a musical instrument", "lv": "Spēlēt mūzikas instrumentu"}, "A07": {"scale": "A", "en": "Perform stunts for a movie or television show", "lv": "Izpildīt kaskadieru trikus filmā vai TV raidījumā"}, "A08": {"scale": "A", "en": "Design sets for plays", "lv": "Veidot scenogrāfiju teātra izrādēm"}, "A09": {"scale": "A", "en": "Compose or arrange music", "lv": "Komponēt mūziku vai veidot tās aranžējumus"}, "A10": {"scale": "A", "en": "Create special effects for movies", "lv": "Veidot specefektus filmām"}, "A11": {"scale": "A", "en": "Paint sets for plays", "lv": "Gleznot dekorācijas teātra izrādēm"}, "A12": {"scale": "A", "en": "Write scripts for movies or television shows", "lv": "Rakstīt scenārijus filmām vai TV raidījumiem"}, "S01": {"scale": "S", "en": "Give career guidance to people", "lv": "Sniegt cilvēkiem karjeras konsultācijas"}, "S02": {"scale": "S", "en": "Do volunteer work at a non-profit organization", "lv": "Veikt brīvprātīgo darbu bezpeļņas organizācijā"}, "S03": {"scale": "S", "en": "Help people who have problems with drugs or alcohol", "lv": "Palīdzēt cilvēkiem, kuriem ir problēmas ar narkotikām vai alkoholu"}, "S04": {"scale": "S", "en": "Teach an individual an exercise routine", "lv": "Iemācīt cilvēkam individuālu vingrojumu programmu"}, "S05": {"scale": "S", "en": "Help people with family-related problems", "lv": "Palīdzēt cilvēkiem risināt ģimenes problēmas"}, "S06": {"scale": "S", "en": "Supervise the activities of children at a camp", "lv": "Vadīt bērnu nodarbības nometnē"}, "S07": {"scale": "S", "en": "Teach children how to read", "lv": "Mācīt bērniem lasīt"}, "S08": {"scale": "S", "en": "Help elderly people with their daily activities", "lv": "Palīdzēt senioriem ikdienas darbos"}, "S09": {"scale": "S", "en": "Help people with personal or emotional problems", "lv": "Palīdzēt cilvēkiem tikt galā ar personīgām vai emocionālām grūtībām"}, "S10": {"scale": "S", "en": "Perform rehabilitation therapy", "lv": "Veikt rehabilitācijas terapiju"}, "S11": {"scale": "S", "en": "Teach a high-school class", "lv": "Mācīt vidusskolas klasi"}, "E01": {"scale": "E", "en": "Sell restaurant franchises to individuals", "lv": "Pārdot restorānu franšīzes uzņēmējiem"}, "E02": {"scale": "E", "en": "Sell merchandise at a department store", "lv": "Pārdot preces lielveikalā"}, "E03": {"scale": "E", "en": "Manage the operations of a hotel", "lv": "Vadīt viesnīcas darbu"}, "E04": {"scale": "E", "en": "Operate a beauty salon or barber shop", "lv": "Vadīt skaistumkopšanas salonu vai frizētavu"}, "E05": {"scale": "E", "en": "Manage a department within a large company", "lv": "Vadīt nodaļu lielā uzņēmumā"}, "E06": {"scale": "E", "en": "Manage a clothing store", "lv": "Vadīt apģērbu veikalu"}, "E07": {"scale": "E", "en": "Sell houses", "lv": "Pārdot mājas un dzīvokļus"}, "E08": {"scale": "E", "en": "Run a toy store", "lv": "Vadīt rotaļlietu veikalu"}, "E09": {"scale": "E", "en": "Start your own business", "lv": "Dibināt savu uzņēmumu"}, "E10": {"scale": "E", "en": "Negotiate business contracts", "lv": "Vest sarunas par darījumu līgumiem"}, "E11": {"scale": "E", "en": "Market a new line of clothing", "lv": "Virzīt tirgū jaunu apģērbu kolekciju"}, "C01": {"scale": "C", "en": "Generate the monthly payroll checks for an office", "lv": "Sagatavot biroja darbinieku ikmēneša algu aprēķinus"}, "C02": {"scale": "C", "en": "Inventory supplies using a hand-held computer", "lv": "Veikt preču uzskaiti ar rokas skeneri"}, "C03": {"scale": "C", "en": "Use a computer program to generate customer bills", "lv": "Sagatavot klientu rēķinus ar datorprogrammu"}, "C04": {"scale": "C", "en": "Maintain employee records", "lv": "Kārtot darbinieku personāla lietas"}, "C05": {"scale": "C", "en": "Compute and record statistical and other numerical data", "lv": "Aprēķināt un reģistrēt statistikas un citus skaitliskos datus"}, "C06": {"scale": "C", "en": "Operate a calculator", "lv": "Strādāt ar kalkulatoru"}, "C07": {"scale": "C", "en": "Handle customers' bank transactions", "lv": "Apstrādāt bankas klientu maksājumus"}, "C08": {"scale": "C", "en": "Keep shipping and receiving records", "lv": "Uzskaitīt nosūtītās un saņemtās preces"}, "C09": {"scale": "C", "en": "Install software across computers on a large network", "lv": "Instalēt programmatūru daudzos datoros lielā datortīklā"}, "C10": {"scale": "C", "en": "Stamp, sort, and distribute mail for an organization", "lv": "Šķirot un izdalīt organizācijas pasta sūtījumus"}}, "forms": {"A": {"order": ["R01", "I01", "A01", "S01", "E01", "C01", "R02", "I02", "A02", "S02", "E02", "C02", "R03", "I03", "A03", "S03", "E03", "C03", "R04", "I04", "A04", "S04", "E04", "C04", "R05", "I05", "A05", "S05", "E05", "C05", "R06", "I06", "A06", "S06", "E06", "C06", "R07", "I07", "A07", "S07", "E07", "C07", "R08", "I08", "A08", "S08", "E08", "C08"], "label": "IIP RIASEC Markers, aktivitāšu kopa A (48 apgalvojumi)", "cite": "Armstrong, Allison un Rounds (2008), Journal of Vocational Behavior, 73, 287 līdz 299."}, "B": {"order": ["R09", "I09", "A05", "S09", "E05", "C09", "R10", "I10", "A09", "S01", "E09", "C06", "R04", "I11", "A10", "S10", "E10", "C08", "R11", "I12", "A11", "S02", "E11", "C02", "R01", "I13", "A12", "S11", "E02", "C10"], "label": "O*NET Mini Interest Profiler (30 apgalvojumi)", "cite": "Rounds, Ming, Cao, Song un Lewis (2016), National Center for O*NET Development. O*NET® ir ASV Darba departamenta preču zīme."}}, "ui": [{"id": "instr_title", "lv": "Ko tev patiktu darīt?"}, {"id": "instr_body", "lv": "Tev parādīsim dažādas darbības. Par katru atbildi, cik ļoti tev patiktu to darīt. Nedomā par to, vai tev pietiktu zināšanu vai cik par to maksātu. Domā tikai par to, vai tev tas patiktu. Pareizu vai nepareizu atbilžu nav."}, {"id": "stem", "lv": "Cik ļoti tev patiktu..."}, {"id": "resp1", "lv": "Ļoti nepatiktu"}, {"id": "resp2", "lv": "Nepatiktu"}, {"id": "resp3", "lv": "Nezinu"}, {"id": "resp4", "lv": "Patiktu"}, {"id": "resp5", "lv": "Ļoti patiktu"}, {"id": "flat_profile", "lv": "Tavs profils ir diezgan līdzens: tev patīk vai nepatīk līdzīgi daudz dažādu lietu. Tas ir pilnīgi normāli, it īpaši šajā vecumā. Vērts izmēģināt dažādas jomas praktiski."}, {"id": "disclaimer", "lv": "Šis nav tests ar pareizām atbildēm un tas nenosaka tavu nākotni. Intereses pusaudža gados vēl mainās. Izmanto rezultātu kā ideju sarakstu, ko izpētīt."}], "types": {"R": {"name": "Praktiskais", "en": "Realistic", "short": "Patīk strādāt ar rokām, instrumentiem, mašīnām un redzēt taustāmu rezultātu.", "jobs": ["mehatronikas inženieris", "būvinženieris", "elektroinženieris", "robotikas tehniķis", "aviācijas tehniķis", "kuģa mehāniķis"], "other": "Citur Latvijā: lauksaimniecība, mežsaimniecība, pārtikas tehnoloģija (piemēram, LBTU)."}, "I": {"name": "Pētnieciskais", "en": "Investigative", "short": "Patīk izzināt, analizēt, eksperimentēt un saprast, kā lietas darbojas.", "jobs": ["ķīmijas inženieris", "biotehnologs", "datu analītiķis", "materiālu zinātnieks", "vides inženieris", "programmētājs"], "other": "Citur Latvijā: medicīna, farmācija, fizika, bioloģija (piemēram, LU, RSU)."}, "A": {"name": "Radošais", "en": "Artistic", "short": "Patīk radīt, izdomāt, izteikties caur dizainu, tekstu, mūziku vai attēlu.", "jobs": ["arhitekts", "industriālais dizainers", "UX dizainers", "jauno mediju mākslinieks", "tekstila dizainers", "tehniskais tulkotājs"], "other": "Citur Latvijā: tēlotājmāksla, mūzika, kino un teātris (piemēram, LMA, JVLMA, LKA)."}, "S": {"name": "Sociālais", "en": "Social", "short": "Patīk palīdzēt, mācīt, konsultēt un strādāt ar cilvēkiem.", "jobs": ["medicīnas inženieris", "inženierzinātņu skolotājs", "IT apmācību speciālists", "darba drošības speciālists", "personāla vadītājs", "projektu koordinators"], "other": "Citur Latvijā: pedagoģija, psiholoģija, sociālais darbs, veselības aprūpe (piemēram, LU, RSU, RTU Liepāja)."}, "E": {"name": "Uzņēmīgais", "en": "Enterprising", "short": "Patīk vadīt, pārliecināt, uzsākt jaunas lietas un uzņemties atbildību.", "jobs": ["uzņēmējs", "IT projektu vadītājs", "inženierekonomists", "nekustamā īpašuma pārvaldnieks", "pārdošanas inženieris", "jaunuzņēmuma dibinātājs"], "other": "Citur Latvijā: tiesības, komunikācija, starptautiskais bizness (piemēram, LU, SSE Riga)."}, "C": {"name": "Organizējošais", "en": "Conventional", "short": "Patīk kārtība, precizitāte, skaitļi, dati un skaidras sistēmas.", "jobs": ["finanšu analītiķis", "datubāzu administrators", "loģistikas speciālists", "kvalitātes inženieris", "grāmatvedis", "muitas speciālists"], "other": "Citur Latvijā: grāmatvedība, finanses, valsts pārvalde (piemēram, LU, Banku augstskola)."}}, "programs": [{"name": "Arhitektūra", "fac": "Arhitektūras un dizaina institūts", "code": "AIR"}, {"name": "Industriālais dizains", "fac": "Arhitektūras un dizaina institūts", "code": "ARE"}, {"name": "Materiālu tehnoloģija un dizains", "fac": "Arhitektūras un dizaina institūts", "code": "ARI"}, {"name": "Jauno mediju māksla", "fac": "Arhitektūras un dizaina institūts", "code": "AIE"}, {"name": "Būvniecība", "fac": "Būvniecības un mašīnzinību fakultāte", "code": "RIC"}, {"name": "Mehatronika", "fac": "Būvniecības un mašīnzinību fakultāte, RTU Liepāja, RTU Rēzekne", "code": "RIC"}, {"name": "Siltuma, gāzes un ūdens tehnoloģija", "fac": "Būvniecības un mašīnzinību fakultāte", "code": "RIC"}, {"name": "Autotransporta inženierija", "fac": "Būvniecības un mašīnzinību fakultāte", "code": "RIC"}, {"name": "Aviācijas transports", "fac": "Būvniecības un mašīnzinību fakultāte", "code": "RIC"}, {"name": "Ķīmija un ķīmijas tehnoloģija", "fac": "Dabaszinātņu un tehnoloģiju fakultāte", "code": "IRC"}, {"name": "Materiālu inženierija", "fac": "Dabaszinātņu un tehnoloģiju fakultāte", "code": "IRC"}, {"name": "Biotehnoloģija un bioinženierija", "fac": "Dabaszinātņu un tehnoloģiju fakultāte", "code": "IRC"}, {"name": "Vides inženierija", "fac": "Dabaszinātņu un tehnoloģiju fakultāte", "code": "IRS"}, {"name": "Medicīnas inženierija un fizika", "fac": "Dabaszinātņu un tehnoloģiju fakultāte", "code": "ISR"}, {"name": "Apģērbu un tekstila tehnoloģija", "fac": "Dabaszinātņu un tehnoloģiju fakultāte", "code": "RAC"}, {"name": "Informācijas tehnoloģija", "fac": "Datorzinātnes, informācijas tehnoloģijas un enerģētikas fakultāte", "code": "ICR"}, {"name": "Datorsistēmas", "fac": "Datorzinātnes, informācijas tehnoloģijas un enerģētikas fakultāte", "code": "ICR"}, {"name": "Viedās elektroniskās sistēmas", "fac": "Datorzinātnes, informācijas tehnoloģijas un enerģētikas fakultāte", "code": "RIC"}, {"name": "Telekomunikāciju tehnoloģijas un datu pārraides inženierija", "fac": "Datorzinātnes, informācijas tehnoloģijas un enerģētikas fakultāte", "code": "RIC"}, {"name": "Elektrotehnoloģiju datorvadība", "fac": "Datorzinātnes, informācijas tehnoloģijas un enerģētikas fakultāte, RTU Liepāja", "code": "RIC"}, {"name": "Enerģētika un elektrotehnika", "fac": "Datorzinātnes, informācijas tehnoloģijas un enerģētikas fakultāte", "code": "RIC"}, {"name": "Adaptronika", "fac": "Datorzinātnes, informācijas tehnoloģijas un enerģētikas fakultāte", "code": "RIC"}, {"name": "Telemātika un transporta elektroniskās sistēmas", "fac": "Datorzinātnes, informācijas tehnoloģijas un enerģētikas fakultāte", "code": "RIC"}, {"name": "Finanšu inženierija", "fac": "Datorzinātnes, informācijas tehnoloģijas un enerģētikas fakultāte", "code": "CIE"}, {"name": "Finanšu pārvaldības informācijas sistēmas", "fac": "Datorzinātnes, informācijas tehnoloģijas un enerģētikas fakultāte (kopā ar Banku augstskolu)", "code": "CEI"}, {"name": "Tehniskā tulkošana un tekstveide", "fac": "Datorzinātnes, informācijas tehnoloģijas un enerģētikas fakultāte", "code": "ACS"}, {"name": "Uzņēmējdarbība un vadīšana", "fac": "Inženierekonomikas un vadības fakultāte, RTU Liepāja", "code": "ECS"}, {"name": "Ekonomika", "fac": "Inženierekonomikas un vadības fakultāte, RTU Rēzekne", "code": "ICE"}, {"name": "Nekustamā īpašuma pārvaldība", "fac": "Inženierekonomikas un vadības fakultāte", "code": "ECS"}, {"name": "Kuģu vadīšana", "fac": "RTU Latvijas Jūras akadēmija", "code": "REC"}, {"name": "Kuģu mehānika", "fac": "RTU Latvijas Jūras akadēmija", "code": "RCI"}, {"name": "Dizaina tehnoloģijas", "fac": "RTU Rēzekne", "code": "ARC"}, {"name": "Programmēšanas inženieris", "fac": "RTU Rēzekne", "code": "ICR"}], "programUrl": "https://www.rtu.lv/lv/studijas/visas-studiju-programmas"};
+function gc(p){ try{ if (window.goatcounter && window.goatcounter.count) window.goatcounter.count({path:p, title:p, event:true}); }catch(e){} }
+const CONFIG = {
+  pipelineUrl: "",            // pipeline aptaujas saite; tukša = bloks netiek rādīts
+  storageKey: "rtu_riasec_" + DATA.version,
+  topBand: 5,                 // punkti no maksimuma, kuros tipi uzskatāmi par vienlīdz spēcīgiem
+  flatRange: 15               // ja max mīnus min ir mazāks, profils ir līdzens
+};
+const $ = id => document.getElementById(id);
+const params = new URLSearchParams(location.search);
+const PILOT = params.get("pilots") === "1";
+const ANG = {R:0, C:60, E:120, S:180, A:240, I:300}; // Predigera kartes leņķi
+
+const VKEY = v => CONFIG.storageKey + "_" + v;
+const store = {
+  get(v){ try{ return JSON.parse(localStorage.getItem(VKEY(v))) || null; }catch(e){ return null; } },
+  set(st){ try{ localStorage.setItem(VKEY(st.version), JSON.stringify(st)); }catch(e){} },
+  clear(v){ try{ localStorage.removeItem(VKEY(v)); }catch(e){} },
+  clearAll(){ ["A","B"].forEach(v => this.clear(v)); }
+};
+const UI = Object.fromEntries(DATA.ui.map(u => [u.id, u.lv]));
+let state = null; // {version, order:[ids], answers:{id:1..5}, idx, started, finished}
+const VINFO = {
+  B: {title:"Īsā versija", desc:"30 darbības, apmēram 4 minūtes"},
+  A: {title:"Garā versija", desc:"48 darbības, apmēram 6 minūtes"}
+};
+const other = v => v === "A" ? "B" : "A";
+const forced = (params.get("v")||"").toUpperCase();
+
+function newState(version){
+  return {version, order: DATA.forms[version].order.slice(), answers:{}, idx:0, started:new Date().toISOString(), finished:null};
+}
+function show(id){ ["intro","quiz","results"].forEach(s => $(s).classList.toggle("hidden", s !== id)); window.scrollTo(0,0); }
+function begin(v){ state = newState(v); store.set(state); gc("riasec/sakts-" + v); startQuiz(); }
+function open(v){
+  const st = store.get(v);
+  if (st && st.finished){ state = st; renderResults(); }
+  else if (st && Object.keys(st.answers).length){ state = st; startQuiz(); }
+  else begin(v);
+}
+
+// ---------- sākums ----------
+function initIntro(){
+  $("instr_title").textContent = UI.instr_title;
+  $("instr_body").textContent = UI.instr_body;
+  renderVersions();
+}
+function renderVersions(){
+  const list = (forced === "A" || forced === "B") ? [forced] : ["B","A"];
+  $("vers").innerHTML = list.map(v => {
+    const st = store.get(v), n = DATA.forms[v].order.length;
+    const done = st && st.finished, part = st && !done && Object.keys(st.answers).length;
+    const status = done ? "pabeigta" : part ? `iesākta: ${Object.keys(st.answers).length} no ${n}` : "nav sākta";
+    const main = done ? "Skatīt rezultātu" : part ? "Turpināt" : "Sākt";
+    const again = (done || part) ? `<button data-again="${v}">Sākt no jauna</button>` : "";
+    const pilot = PILOT ? `<div class="meta">${DATA.forms[v].label}</div>` : "";
+    return `<div class="ver"><h3>${VINFO[v].title}</h3><div>${VINFO[v].desc}</div>${pilot}<div class="st">${status}</div><div class="row"><button class="primary" data-open="${v}">${main}</button>${again}</div></div>`;
+  }).join("");
+  $("vers").querySelectorAll("[data-open]").forEach(b => b.onclick = () => open(b.dataset.open));
+  $("vers").querySelectorAll("[data-again]").forEach(b => b.onclick = () => begin(b.dataset.again));
+}
+
+// ---------- jautājumi ----------
+function startQuiz(){
+  $("stem").textContent = UI.stem.replace(/\.+$/, "");
+  const sc = $("scale"); sc.innerHTML = "";
+  for (let v = 1; v <= 5; v++){
+    const b = document.createElement("button");
+    b.textContent = UI["resp"+v]; b.dataset.v = v;
+    b.onclick = () => answer(v);
+    sc.appendChild(b);
+  }
+  show("quiz"); renderItem();
+}
+function renderItem(){
+  const id = state.order[state.idx];
+  const it = DATA.items[id];
+  $("itemText").textContent = it.lv.charAt(0).toLowerCase() + it.lv.slice(1) + "?";
+  $("counter").textContent = (state.idx+1) + " / " + state.order.length;
+  $("bar").style.width = (100*state.idx/state.order.length) + "%";
+  $("btnBack").disabled = state.idx === 0;
+  [...$("scale").children].forEach(b => b.classList.toggle("sel", +b.dataset.v === state.answers[id]));
+}
+let busy = false;
+function answer(v){
+  if (busy) return;
+  const id = state.order[state.idx];
+  state.answers[id] = v; store.set(state);
+  [...$("scale").children].forEach(b => b.classList.toggle("sel", +b.dataset.v === v));
+  busy = true;
+  setTimeout(() => {
+    busy = false;
+    if (state.idx < state.order.length - 1){ state.idx++; store.set(state); renderItem(); }
+    else { state.finished = new Date().toISOString(); store.set(state); gc("riasec/pabeigts-" + state.version); renderResults(); }
+  }, 180);
+}
+$("btnBack").onclick = () => { if (state.idx > 0){ state.idx--; store.set(state); renderItem(); } };
+document.addEventListener("keydown", e => {
+  if ($("quiz").classList.contains("hidden")) return;
+  if (e.key >= "1" && e.key <= "5") answer(+e.key);
+  if (e.key === "Backspace" || e.key === "ArrowLeft") $("btnBack").click();
+});
+
+// ---------- aprēķini ----------
+function scores(st){
+  const sum = {}, n = {};
+  DATA.scales.forEach(s => { sum[s]=0; n[s]=0; });
+  st.order.forEach(id => { const a = st.answers[id]; if (a){ const s = DATA.items[id].scale; sum[s]+=a; n[s]++; } });
+  const out = {};
+  DATA.scales.forEach(s => { out[s] = n[s] ? Math.round(((sum[s]/n[s]) - 1) / 4 * 100) : 0; });
+  return out;
+}
+function predigerPoint(sc){
+  const m = DATA.scales.reduce((a,s)=>a+sc[s],0)/6;
+  let x=0, y=0;
+  DATA.scales.forEach(s => { const c = sc[s]-m, a = ANG[s]*Math.PI/180; x += c*Math.cos(a); y += c*Math.sin(a); });
+  return {x, y}; // x>0 lietas, x<0 cilvēki; y>0 dati, y<0 idejas
+}
+function progFit(code, sc){ return Math.round((3*sc[code[0]] + 2*sc[code[1]] + sc[code[2]]) / 6); }
+
+// ---------- rezultāti ----------
+const svgNS = "http://www.w3.org/2000/svg";
+function el(tag, attrs, txt){ const e = document.createElementNS(svgNS, tag); let st = ""; for (const k in attrs){ const v = String(attrs[k]); if (v.indexOf("var(") === 0) st += k + ":" + v + ";"; else e.setAttribute(k, v); } if (st) e.setAttribute("style", st); if (txt != null) e.textContent = txt; return e; }
+
+function drawHex(sc){
+  const s = $("hex"); s.innerHTML = "";
+  const cx=160, cy=150, R=105;
+  const pt = (k, r) => { const a = -ANG[k]*Math.PI/180; return [cx + r*Math.cos(a), cy + r*Math.sin(a)]; };
+  [0.25,0.5,0.75,1].forEach(f => {
+    s.appendChild(el("polygon",{points: DATA.scales.map(k=>pt(k,R*f).join(",")).join(" "), fill:"none", stroke:"var(--soft)", "stroke-width":1}));
+  });
+  DATA.scales.forEach(k => { const [x,y]=pt(k,R); s.appendChild(el("line",{x1:cx,y1:cy,x2:x,y2:y,stroke:"var(--soft)"})); });
+  s.appendChild(el("polygon",{points: DATA.scales.map(k=>pt(k,R*Math.max(sc[k],2)/100).join(",")).join(" "), fill:"var(--mid)", "fill-opacity":0.55, stroke:"var(--fg)", "stroke-width":1.5}));
+  DATA.scales.forEach(k => {
+    const [x,y] = pt(k, R+22);
+    s.appendChild(el("text",{x, y:y-3, "text-anchor":"middle", "font-size":12, "font-weight":"bold"}, DATA.types[k].name));
+    s.appendChild(el("text",{x, y:y+11, "text-anchor":"middle", "font-size":11, fill:"var(--muted)"}, sc[k]));
+  });
+}
+function drawMap(p){
+  const s = $("map"); s.innerHTML = "";
+  const c=160, R=120;
+  s.appendChild(el("circle",{cx:c,cy:c,r:R,fill:"none",stroke:"var(--line)"}));
+  s.appendChild(el("circle",{cx:c,cy:c,r:R/2,fill:"none",stroke:"var(--soft)"}));
+  s.appendChild(el("line",{x1:c-R,y1:c,x2:c+R,y2:c,stroke:"var(--mid)"}));
+  s.appendChild(el("line",{x1:c,y1:c-R,x2:c,y2:c+R,stroke:"var(--mid)"}));
+  const lab = [["Dati, kārtība",c,c-R-8],["Idejas, radīšana",c,c+R+18],["Cilvēki",c-R-6,c+4,"end"],["Lietas",c+R+6,c+4,"start"]];
+  lab.forEach(([t,x,y,a]) => s.appendChild(el("text",{x,y,"text-anchor":a||"middle","font-size":11,"font-weight":"bold"},t)));
+  DATA.scales.forEach(k => { const a=-ANG[k]*Math.PI/180; s.appendChild(el("text",{x:c+(R-16)*Math.cos(a), y:c+(R-16)*Math.sin(a)+4, "text-anchor":"middle","font-size":11,fill:"var(--muted)"}, k)); });
+  const scale = 1/160, mag = Math.hypot(p.x,p.y)*scale, k = mag>1 ? 1/mag : 1;
+  const px = c + p.x*scale*R*k, py = c - p.y*scale*R*k;
+  s.appendChild(el("circle",{cx:px,cy:py,r:8,fill:"var(--fg)"}));
+  s.appendChild(el("text",{x:px+12,y:py+4,"font-size":12,"font-weight":"bold"},"Tu"));
+  return mag;
+}
+function mapSentence(p, mag){
+  if (mag < 0.15) return "Tavs punkts ir tuvu centram: tev patīk dažādi darba veidi, bez izteikta virziena.";
+  const h = Math.abs(p.x) > 12 ? (p.x > 0 ? "darbs ar lietām, tehniku un materiāliem" : "darbs ar cilvēkiem") : "";
+  const v = Math.abs(p.y) > 12 ? (p.y > 0 ? "dati, kārtība un skaidras sistēmas" : "idejas, izpēte un radīšana") : "";
+  const parts = [h, v].filter(Boolean);
+  return "Tevi vairāk piesaista " + (parts.length ? parts.join(", kā arī ") : "dažādi darba veidi") + ".";
+}
+
+function pearson(a, b){
+  const ma = a.reduce((x,y)=>x+y,0)/a.length, mb = b.reduce((x,y)=>x+y,0)/b.length;
+  let n=0, da=0, db=0; a.forEach((x,i)=>{ n+=(x-ma)*(b[i]-mb); da+=(x-ma)**2; db+=(b[i]-mb)**2; });
+  return (da && db) ? n/Math.sqrt(da*db) : null;
+}
+function drawHex2(sA, sB){
+  const s = $("hex2"); s.innerHTML = "";
+  const cx=160, cy=150, R=105;
+  const pt = (k, r) => { const a = -ANG[k]*Math.PI/180; return [cx + r*Math.cos(a), cy + r*Math.sin(a)]; };
+  [0.25,0.5,0.75,1].forEach(f => s.appendChild(el("polygon",{points: DATA.scales.map(k=>pt(k,R*f).join(",")).join(" "), fill:"none", stroke:"var(--soft)"})));
+  const poly = sc => DATA.scales.map(k=>pt(k,R*Math.max(sc[k],2)/100).join(",")).join(" ");
+  s.appendChild(el("polygon",{points: poly(sB), fill:"var(--mid)", "fill-opacity":0.5, stroke:"none"}));
+  s.appendChild(el("polygon",{points: poly(sA), fill:"none", stroke:"var(--fg)", "stroke-width":2}));
+  DATA.scales.forEach(k => { const [x,y] = pt(k, R+20); s.appendChild(el("text",{x, y:y+4, "text-anchor":"middle", "font-size":12, "font-weight":"bold"}, DATA.types[k].name)); });
+}
+function renderCompare(){
+  const a = store.get("A"), b = store.get("B");
+  const both = a && a.finished && b && b.finished;
+  $("cmpSec").classList.toggle("hidden", !both);
+  const o = store.get(other(state.version));
+  const showOther = !both && !(forced === "A" || forced === "B");
+  $("otherBox").classList.toggle("hidden", !showOther);
+  if (showOther){
+    const ov = other(state.version);
+    const label = o && Object.keys(o.answers).length ? "Turpināt" : "Sākt";
+    $("otherBox").innerHTML = `<p style="margin-top:0"><b>Gribi pārbaudīt rezultātu?</b> Aizpildi arī ${VINFO[ov].title.toLowerCase()} (${VINFO[ov].desc}). Tad redzēsi, cik līdzīgi ir abi profili.</p><button class="primary" id="btnOther">${label}: ${VINFO[ov].title.toLowerCase()}</button>`;
+    $("btnOther").onclick = () => open(ov);
+  }
+  if (!both) return;
+  const sA = scores(a), sB = scores(b);
+  drawHex2(sA, sB);
+  $("cmpTable").innerHTML = `<tr><th>Intereses</th><th>Īsā</th><th>Garā</th><th>Starpība</th></tr>` +
+    DATA.scales.map(k => `<tr><td>${DATA.types[k].name}</td><td>${sB[k]}</td><td>${sA[k]}</td><td>${Math.abs(sA[k]-sB[k])}</td></tr>`).join("");
+  const r = pearson(DATA.scales.map(k=>sA[k]), DATA.scales.map(k=>sB[k]));
+  const topA = DATA.scales.slice().sort((x,y)=>sA[y]-sA[x]), topB = DATA.scales.slice().sort((x,y)=>sB[y]-sB[x]);
+  const common = topA.slice(0,3).filter(k => topB.slice(0,3).includes(k));
+  const shared = DATA.forms.A.order.filter(id => DATA.forms.B.order.includes(id));
+  const same = shared.filter(id => a.answers[id] === b.answers[id]).length;
+  let txt;
+  if (r === null) txt = "Vismaz viens profils ir pilnīgi līdzens, tāpēc līdzību nevar aprēķināt.";
+  else if (r >= 0.8) txt = "Abi profili ir ļoti līdzīgi. Tavas intereses ir diezgan noteiktas.";
+  else if (r >= 0.5) txt = "Abi profili ir līdzīgi, bet ar dažām atšķirībām. Galvenās intereses sakrīt.";
+  else txt = "Abi profili diezgan atšķiras. Tas nozīmē, ka tavas intereses vēl veidojas, vai arī dažas darbības tev šķita grūti iedomājamas. Abi rezultāti ir izmantojami kā idejas.";
+  $("cmpText").innerHTML = `${txt}<br><span class="note">Profilu līdzība: ${r===null?"nav":(r<0?"mīnus ":"")+Math.abs(r).toFixed(2).replace(".",",")} (skalā no mīnus 1 līdz 1, kur 1 nozīmē vienādu formu). Kopīgās trīs spēcīgākās intereses: ${common.length ? common.map(k=>DATA.types[k].name).join(", ") : "nav"}. ${shared.length} darbības bija abās versijās; tām tu atbildēji vienādi ${same} reizes.</span>`;
+  $("cmpSwitch").innerHTML = ["B","A"].map(v => v === state.version ? `<b>${VINFO[v].title.toLowerCase()}</b>` : `<a href="#" data-sw="${v}">${VINFO[v].title.toLowerCase()}</a>`).join(" · ");
+  $("cmpSwitch").querySelectorAll("[data-sw]").forEach(x => x.onclick = e => { e.preventDefault(); state = store.get(x.dataset.sw); renderResults(); });
+}
+
+function renderResults(){
+  const sc = scores(state);
+  $("resVer").textContent = VINFO[state.version].title + ", " + DATA.forms[state.version].order.length + " darbības";
+  renderCompare();
+  const sorted = DATA.scales.slice().sort((a,b)=>sc[b]-sc[a]);
+  const max = sc[sorted[0]], min = sc[sorted[5]];
+  const top = sorted.filter(k => max - sc[k] <= CONFIG.topBand).slice(0,3);
+  if (top.length < 2) top.push(sorted[1]);
+  $("resDate").textContent = new Date(state.finished || Date.now()).toLocaleDateString("lv-LV");
+  $("disclaimer").textContent = UI.disclaimer;
+  const flat = (max - min) < CONFIG.flatRange;
+  $("flat").textContent = UI.flat_profile; $("flat").classList.toggle("hidden", !flat);
+
+  drawHex(sc);
+  $("bars").innerHTML = sorted.map(k => `<div class="b ${top.includes(k)?"top":""}"><span class="lbl">${DATA.types[k].name}</span><div class="track"><div class="fill" style="width:${sc[k]}%"></div></div><span class="num">${sc[k]}</span></div>`).join("")
+    + `<p class="meta">0 = ļoti nepatiktu, 100 = ļoti patiktu</p>`;
+  $("topDesc").innerHTML = "<h3>Tavas spēcīgākās intereses</h3>" + top.map(k => `<p class="tdesc"><b style="color:var(--fg)">${DATA.types[k].name}.</b> ${DATA.types[k].short}</p>`).join("");
+
+  const p = predigerPoint(sc), mag = drawMap(p);
+  $("mapText").textContent = mapSentence(p, mag);
+
+  $("jobs").innerHTML = top.slice(0,2).map(k => `<h3>${DATA.types[k].name}</h3><ul class="jobs">${DATA.types[k].jobs.map(j=>`<li>${j}</li>`).join("")}</ul>`).join("");
+
+  const progs = DATA.programs.map(pr => ({...pr, fit: progFit(pr.code, sc)})).sort((a,b)=>b.fit-a.fit);
+  const progHTML = pr => `<div class="prog"><div class="name">${pr.name}</div><div class="fac">${pr.fac} · ${pr.code.split("").map(l=>DATA.types[l].name).join(", ")}</div><div class="fit"><span>atbilstība</span><div class="track"><div class="fill" style="width:${pr.fit}%"></div></div><span>${pr.fit}</span></div></div>`;
+  let all = false;
+  const drawProgs = () => { $("progs").innerHTML = (all ? progs : progs.slice(0,6)).map(progHTML).join(""); $("btnAllProgs").textContent = all ? "Rādīt mazāk" : "Rādīt visas programmas (" + progs.length + ")"; };
+  drawProgs();
+  $("btnAllProgs").onclick = () => { all = !all; drawProgs(); };
+  $("progLink").href = DATA.programUrl;
+  $("other").innerHTML = top.slice(0,2).map(k => `<p style="margin:.2rem 0">${DATA.types[k].other.replace(/^Citur Latvijā:\s*/, "")}</p>`).join("");
+
+  if (CONFIG.pipelineUrl){ $("pipelineLink").href = CONFIG.pipelineUrl; $("pipelineBox").classList.remove("hidden"); }
+  if (PILOT) $("pilotRes").classList.remove("hidden");
+
+  const f = DATA.forms[state.version];
+  $("foot").innerHTML = `Instruments: ${f.label}. ${f.cite} Latviešu adaptācija: RTU STEAM, darba versija ${DATA.version}, nav validēta. Interešu karte pēc Prediger (1982).`;
+
+  $("btnPrint").onclick = () => window.print();
+  $("btnMail").onclick = () => {
+    const lines = ["Mans interešu profils (RTU STEAM)", "", ...sorted.map(k => DATA.types[k].name + ": " + sc[k]), "",
+      "Spēcīgākās intereses: " + top.map(k=>DATA.types[k].name).join(", "), "", "RTU programmas, ko izpētīt:",
+      ...progs.slice(0,5).map(pr => "  " + pr.name + " (" + pr.fit + ")"), "", "Profesijas: " + top.slice(0,2).flatMap(k=>DATA.types[k].jobs.slice(0,3)).join(", "),
+      "", DATA.programUrl];
+    location.href = "mailto:?subject=" + encodeURIComponent("Mans interešu profils") + "&body=" + encodeURIComponent(lines.join("\n"));
+  };
+  $("btnHome").onclick = () => { renderVersions(); show("intro"); };
+  $("btnAgain").onclick = () => begin(state.version);
+  $("btnDelete").onclick = () => { if (confirm("Dzēst visas tavas atbildes (abās versijās) no šīs ierīces?")){ store.clearAll(); location.href = location.pathname + location.search; } };
+  $("btnCsv").onclick = () => {
+    const ids = Object.keys(DATA.items);
+    const head = ["versija","sakts","pabeigts",...DATA.scales.map(s=>"punkti_"+s),...ids];
+    const rows = ["A","B"].map(v => store.get(v)).filter(st => st && st.finished).map(st => {
+      const s = scores(st);
+      return [st.version, st.started, st.finished, ...DATA.scales.map(k=>s[k]), ...ids.map(i=>st.answers[i]||"")].join(";");
+    });
+    const blob = new Blob(["﻿" + head.join(";") + "\n" + rows.join("\n") + "\n"], {type:"text/csv;charset=utf-8"});
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob);
+    a.download = "riasec_" + new Date().toISOString().slice(0,19).replace(/[-:T]/g,"") + ".csv"; a.click();
+  };
+  show("results");
+}
+
+initIntro();
+</script>
+<script>window.goatcounter={path:function(p){return p.replace(/index\.html$/,"").replace(/\/$/,"")||"/";}};</script>
+<script data-goatcounter="https://slowscience.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
