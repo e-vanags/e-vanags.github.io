@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Negatīva izturēšanās darbā un labbūtība (NAQ-R un WHO-5)</title>
+<meta name="description" content="Negatīvās izturēšanās darbā (NAQ-R) un labbūtības (WHO-5) pašnovērtējums ar salīdzinājumu ar Latvijas darbinieku pētījuma sintētiskajiem datiem.">
+<style>
+  :root{
+    --ink:#0E0F12;--ink-muted:#5B6068;
+    --paper:#FFFFFF;--paper-2:#F3F4F6;--rule:#D9DCE1;
+    --accent:#183B6B;--series-b:#c45c26;
+    --disp:Calibri,Carlito,"Segoe UI",Arial,sans-serif;
+    --body:Calibri,Carlito,"Segoe UI",Arial,sans-serif;
+    --mono:Calibri,Carlito,"Segoe UI",Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{font-variant-numeric:tabular-nums;margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:1.0625rem;line-height:1.65;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:40rem;margin:0 auto;padding:0 22px}
+  @media (max-width:520px){.wrap{padding:0 16px}}
+  a{color:var(--accent)}
+  h1,h2,h3{font-family:var(--disp);font-weight:600;letter-spacing:-.01em}
+
+  header.top{border-bottom:1px solid var(--rule)}
+  header.top .wrap{padding:44px 22px 28px}
+  .kick{font-family:var(--mono);font-size:.75rem;color:var(--ink-muted);margin:0 0 14px;letter-spacing:.02em}
+  header.top h1{font-size:2.35rem;line-height:1.14;margin:0 0 12px}
+  @media (max-width:520px){header.top h1{font-size:1.85rem}}
+  header.top .tag{color:var(--ink-muted);margin:0;font-size:1.05rem}
+  .backlink{margin:0 0 14px;font-size:.9rem}
+  .backlink a{text-decoration:none;font-weight:600}
+  .backlink a:hover{text-decoration:underline}
+
+  #intro .wrap{padding-top:28px;padding-bottom:56px}
+  .prose{max-width:38rem}
+  .prose p{margin:0 0 15px}
+  .warnbox{border-left:2px solid var(--ink);padding:12px 16px;font-size:.92rem;line-height:1.5;margin:26px 0}
+  .src{font-size:.8125rem;color:var(--ink-muted);line-height:1.55;margin-top:26px;max-width:38rem}
+
+  details.about{border-top:1px solid var(--rule);margin:24px 0 4px}
+  details.about>summary{list-style:none;cursor:pointer;padding:15px 0 15px 24px;position:relative;font-weight:600;font-size:1rem}
+  details.about>summary::-webkit-details-marker{display:none}
+  details.about>summary::before{content:"+";position:absolute;left:0;top:13px;color:var(--accent);font-size:1.15rem}
+  details.about[open]>summary::before{content:"\2212"}
+  details.about>summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:3px}
+  details.about .inner{border:1px solid var(--rule);padding:18px 20px;margin:0 0 6px;font-size:1rem;line-height:1.62;color:var(--ink-muted)}
+  details.about .inner p{margin:0 0 12px}
+  details.about .inner p:last-child{margin:0}
+  details.about .inner strong{color:var(--ink)}
+
+  .btn{cursor:pointer;border:none;background:var(--accent);color:#fff;font-family:var(--body);font-size:1rem;font-weight:600;padding:14px 28px;border-radius:8px;transition:opacity .15s ease}
+  .btn:hover{opacity:.9}
+  .btn:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+  .btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--rule)}
+  .btn.ghost:hover{border-color:var(--ink-muted)}
+
+  /* progresa josla */
+  #bar{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--rule);display:none}
+  #bar .row{max-width:40rem;margin:0 auto;padding:10px 22px;display:flex;align-items:center;gap:14px}
+  #bar .nm{font-family:var(--disp);font-weight:600;font-size:.9rem;white-space:nowrap}
+  #bar .ct{margin-left:auto;font-family:var(--mono);font-size:.8rem;color:var(--ink-muted);white-space:nowrap}
+  #bar .meter{position:relative;flex:1;min-width:60px;height:2px;background:var(--rule)}
+  #bar .meter i{position:absolute;left:0;top:0;height:100%;background:var(--accent);width:0;transition:width .2s ease}
+  @media (max-width:520px){#bar .nm{display:none}}
+
+  /* aptauja */
+  #survey{display:none}
+  #survey .wrap{padding-top:22px;padding-bottom:40px}
+  .block{padding:26px 0 6px}
+  .block h2{font-size:1.35rem;margin:0 0 6px}
+  .hint{font-size:.95rem;color:var(--ink-muted);margin:0 0 6px;max-width:38rem}
+  .scalemini{display:flex;flex-wrap:wrap;gap:6px 18px;margin:10px 0 4px}
+  .scalemini span{font-size:.9rem;color:var(--ink-muted)}
+  .scalemini b{font-family:var(--mono);color:var(--ink);font-weight:500;margin-right:5px}
+  .item{padding:22px 0 16px;border-bottom:1px solid var(--rule)}
+  .field.miss{border-left:2px solid var(--series-b);padding-left:14px}
+  .item.miss{border-left:2px solid var(--series-b);padding-left:14px}
+  .item .q{display:flex;gap:12px;align-items:baseline;margin-bottom:18px}
+  .item .n{font-family:var(--mono);font-size:.8rem;color:var(--ink-muted);min-width:24px;flex:none;padding-top:2px}
+  .item .stmt{font-size:1.15rem;line-height:1.4}
+  .gauge{position:relative;max-width:440px;margin-left:36px}
+  @media (max-width:520px){.gauge{margin-left:0}}
+  .gauge .rail{position:absolute;top:calc(100% - 13.5px);height:2px;background:var(--rule);z-index:0}
+  .gauge .stops{position:relative;display:grid;z-index:1}
+  .gauge .stop{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:9px;padding:6px 0 4px;cursor:pointer;min-height:44px;justify-content:center}
+  .gauge .stop input{position:absolute;inset:0;opacity:0;cursor:pointer;margin:0}
+  .gauge .stop .num{font-size:.85rem;color:var(--ink-muted);font-family:var(--mono)}
+  .gauge .stop .dot{width:15px;height:15px;border-radius:50%;background:var(--paper);border:2px solid var(--ink-muted);transition:all .12s ease}
+  .gauge .stop:hover .dot{border-color:var(--ink)}
+  .gauge .stop input:checked ~ .dot{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 4px #E3E9F2}
+  .gauge .stop input:checked ~ .num{color:var(--accent);font-weight:500}
+  .gauge .stop input:focus-visible ~ .dot{outline:3px solid var(--accent);outline-offset:2px}
+  .gauge .ends{display:flex;justify-content:space-between;margin-top:6px;color:var(--ink-muted);font-size:.72rem;gap:12px}
+  .gauge .ends span:last-child{text-align:right}
+
+  .field{padding:20px 0 16px;border-bottom:1px solid var(--rule)}
+  .field .lab{display:block;font-size:1.05rem;margin:0 0 12px}
+  input[type=number]{font-family:var(--mono);font-size:1rem;width:110px;padding:9px 12px;border:1.5px solid var(--rule);border-radius:6px;color:var(--ink);background:var(--paper)}
+  input[type=number]:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-color:var(--accent)}
+  .picks{display:flex;flex-wrap:wrap;gap:10px 26px}
+  .pick{position:relative;display:flex;align-items:center;gap:10px;cursor:pointer;min-height:36px}
+  .pick input{position:absolute;opacity:0;inset:0;margin:0;cursor:pointer}
+  .pick .dot{width:15px;height:15px;border-radius:50%;border:2px solid var(--ink-muted);background:var(--paper);flex:none}
+  .pick input:checked ~ .dot{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 4px #E3E9F2}
+  .pick input:focus-visible ~ .dot{outline:3px solid var(--accent);outline-offset:2px}
+  .vlist{display:grid;gap:4px;margin-left:36px}
+  @media (max-width:520px){.vlist{margin-left:0}}
+  .submit{padding:36px 0 6px;text-align:center}
+  .warn{color:var(--series-b);font-size:.9rem;margin:14px 0 0;min-height:1.2em;font-weight:600}
+
+  /* rezultāti */
+  #results{display:none}
+  #results .wrap{padding-top:40px;padding-bottom:66px}
+  .r-title{font-size:1.9rem;margin:0 0 8px}
+  .r-lead{color:var(--ink-muted);margin:0 0 8px;max-width:38rem}
+  .cont{padding:24px 0 20px;border-top:1px solid var(--rule)}
+  .cont .hd{display:flex;align-items:baseline;gap:10px}
+  .cont .fname{font-family:var(--disp);font-weight:600;font-size:1.22rem}
+  .cont .read{margin-left:auto;font-family:var(--mono);font-size:.85rem;color:var(--ink-muted);white-space:nowrap}
+  .cont .read b{color:var(--ink);font-weight:500;font-size:1.05rem}
+  .axis{position:relative;height:30px;margin:14px 8px 0}
+  .axis .track{position:absolute;left:0;right:0;top:15px;height:2px;background:var(--rule)}
+  .axis .tick{position:absolute;top:8px;width:1px;height:16px;background:var(--ink-muted)}
+  .axis .iqr{position:absolute;top:11px;height:10px;background:var(--rule);border-radius:5px;min-width:6px;transform:translateX(-3px)}
+  .axis .med{position:absolute;top:6px;width:3px;height:20px;background:var(--series-b);border-radius:1px;transform:translateX(-50%)}
+  .axis .mk{position:absolute;top:16px;transform:translate(-50%,-50%);width:16px;height:16px;border-radius:50%;background:var(--accent);border:3px solid var(--paper);box-shadow:0 0 0 1px var(--accent);z-index:2}
+  .scale{position:relative;height:18px;margin:2px 8px 10px;font-family:var(--mono);font-size:.72rem;color:var(--ink-muted)}
+  .scale span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+  .band{font-family:var(--mono);font-size:.78rem;color:var(--accent);margin:0 0 6px}
+  .interp{margin:0;line-height:1.55;max-width:38rem}
+  .sub{font-size:.84rem;color:var(--ink-muted);margin:2px 0 0}
+  .legend{font-size:.84rem;color:var(--ink-muted);margin:6px 0 4px;display:flex;flex-wrap:wrap;gap:4px 18px}
+  .legend i{display:inline-block;vertical-align:middle;margin:0 6px 0 0}
+
+  .views{display:flex;flex-wrap:wrap;border:1px solid var(--rule);margin:14px 0 10px}
+  .views button{flex:1 1 auto;background:transparent;border:none;border-right:1px solid var(--rule);padding:10px 8px;font-family:var(--body);font-size:.88rem;font-weight:600;color:var(--ink-muted);cursor:pointer}
+  .views button:last-child{border-right:none}
+  .views button[aria-pressed="true"]{background:var(--accent);color:#fff}
+  .views button[disabled]{opacity:.4;cursor:not-allowed}
+  .views button:focus-visible{outline:3px solid var(--accent);outline-offset:-3px}
+  #grp{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--rule)}
+  #grp button{border:none;background:var(--paper)}
+  #grp button[aria-pressed="true"]{background:var(--accent)}
+  .views.small{display:inline-flex;margin:0 0 14px}
+  .views.small button{flex:none;padding:7px 16px}
+
+  .plot{width:100%;max-width:460px;margin:8px auto 0;display:block}
+  .plot canvas{width:100%;height:auto;display:block}
+  .plotmeta{font-family:var(--mono);font-size:.75rem;color:var(--ink-muted);text-align:center;margin:10px 0 0}
+  .dlegend{max-width:460px;margin:12px auto 0}
+  .dlegend .bar{height:10px;border:1px solid var(--rule);background:linear-gradient(90deg,#ffffff,#c9d3e1,#6f87a8,#183B6B)}
+  .dlegend .ends{display:flex;justify-content:space-between;font-size:.75rem;color:var(--ink-muted);margin-top:4px}
+  .cap{font-size:.92rem;color:var(--ink-muted);line-height:1.55;margin:14px 0 0;max-width:38rem}
+
+  .srow{display:grid;grid-template-columns:minmax(0,1fr) 110px 46px;gap:12px;align-items:center;font-size:.95rem;padding:7px 0;border-top:1px solid var(--rule)}
+  .srow:first-child{border-top:none}
+  .srow .sbar{height:8px;background:var(--paper-2);border-radius:4px;position:relative;overflow:hidden}
+  .srow .sbar span{position:absolute;left:0;top:0;bottom:0;background:#9aa3ae;border-radius:4px}
+  .srow.me{font-weight:600}
+  .srow.me .sbar span{background:var(--accent)}
+  .srow .pct{text-align:right;font-family:var(--mono);font-size:.85rem;color:var(--ink-muted)}
+  @media (max-width:520px){.srow{grid-template-columns:minmax(0,1fr) 64px 42px}}
+
+  .note{border-top:1px solid var(--rule);margin-top:28px;padding-top:18px;font-size:.9rem;color:var(--ink-muted);line-height:1.6;max-width:38rem}
+  .note b{color:var(--ink)}
+  details.refs{margin-top:10px}
+  details.refs>summary{list-style:none;cursor:pointer;font-size:.9rem;color:var(--accent);font-weight:600;padding:8px 0}
+  details.refs>summary::-webkit-details-marker{display:none}
+  details.refs>summary::before{content:"+ "}
+  details.refs[open]>summary::before{content:"\2212 "}
+  details.refs ol{margin:6px 0 0;padding:0;list-style:none}
+  details.refs li{font-size:.8125rem;color:var(--ink-muted);line-height:1.55;margin:0 0 10px;padding-left:1.5em;text-indent:-1.5em;word-break:break-word}
+  .r-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+  .r-back{margin:18px 0 0;font-size:.95rem}
+  .r-next{border-top:1px solid var(--rule);margin:28px 0 0;padding-top:18px;max-width:38rem;line-height:1.55}
+
+  @media print{#bar,.r-actions,.views{display:none}.cont{break-inside:avoid}details.about .inner{display:block}}
+  @media (prefers-reduced-motion: reduce){*{transition:none !important}}
+</style>
+<script>function gc(p){try{if(window.goatcounter&&window.goatcounter.count){window.goatcounter.count({path:p,title:p,event:true});}}catch(e){}}</script>
+</head>
+<body>
+<header class="top"><div class="wrap"><p class="backlink"><a href="index.html">← Visi rīki un aptaujas</a></p><p class="kick">Darba vide un labbūtība</p><h1>Negatīva izturēšanās darbā un labbūtība</h1><p class="tag">NAQ-R negatīvās izturēšanās darbā aptauja un WHO-5 labbūtības indekss, 15 jautājumi</p></div></header>
+
+<section id="intro"><div class="wrap">
+  <div class="prose">
+    <p>Aptauja ir paredzēta strādājošiem. Tā sastāv no divām daļām: desmit jautājumi par negatīvu izturēšanos, ar kuru pēdējo sešu mēnešu laikā esi saskāries/usies savā pašreizējā darbavietā, un pieci jautājumi par Tavu pašsajūtu pēdējo divu nedēļu laikā. Rezultātā redzēsi savu vietu salīdzinājumā ar Latvijas darbinieku pētījuma datiem.</p>
+    <p>Atbildi godīgi. Atbildes paliek tikai Tavā ierīcē un netiek nekur nosūtītas vai saglabātas, tāpēc tās neredz ne darba devējs, ne semināra vadītājs. Anonīmi, bez sīkdatnēm un bez atbildēm tiek skaitīts tikai tas, cik reizes aptauja atvērta un pabeigta.</p>
+  </div>
+  <details class="about"><summary>Par mērījumu un salīdzinājuma datiem</summary><div class="inner about-text"></div></details>
+  <div class="warnbox">Tikai izglītojošiem un pašrefleksijas nolūkiem. Šis nav diagnostisks instruments. Jautājumi skar emocionālo pašsajūtu un iespējami sāpīgu pieredzi darbā, aptauju vari pārtraukt jebkurā brīdī.</div>
+  <button class="btn" id="start">Sākt aptauju</button>
+  <p class="src">Instrumenti: WHO-5 labbūtības indekss (Topp et al., 2015) un NAQ-R deviņu apgalvojumu versija (Einarsen et al., 2009). Salīdzinājuma dati: pētījums «Darba vides pieredze un darbinieku labbūtība Latvijā», preregistrācija <a href="https://doi.org/10.17605/OSF.IO/BY8QM" target="_blank" rel="noopener">doi.org/10.17605/OSF.IO/BY8QM</a>. Aizpildīšana aizņem aptuveni četras minūtes.</p>
+</div></section>
+
+<div id="bar"><div class="row"><span class="nm">Darba vide un labbūtība</span><div class="meter"><i id="mi"></i></div><span class="ct" id="ct">0 / 17 atbildēts</span></div></div>
+
+<section id="survey"><div class="wrap">
+  <div class="block" style="padding-top:8px">
+    <h2>Par Tevi</h2>
+    <p class="hint">Vecums un dzimums ļauj salīdzināt Tavu rezultātu ar līdzīgiem pētījuma dalībniekiem.</p>
+    <div class="field" id="f-age"><label class="lab" for="age">Kāds ir Jūsu vecums?</label><p class="hint" style="margin:-6px 0 10px">Pilni gadi.</p><input type="number" id="age" min="18" max="99" inputmode="numeric" autocomplete="off"></div>
+    <div class="field" id="f-gender"><span class="lab" id="g-lab">Kāds ir Jūsu dzimums?</span><div class="picks" id="g-picks" role="radiogroup" aria-labelledby="g-lab"></div></div>
+  </div>
+  <div class="block" id="b-naq"></div>
+  <div class="block" id="b-self"></div>
+  <div class="block" id="b-who"></div>
+  <div class="submit"><button class="btn" id="submit">Rādīt rezultātus</button><p class="warn" id="warnmsg" aria-live="polite"></p></div>
+</div></section>
+
+<section id="results"><div class="wrap">
+  <div class="warnbox" style="margin-top:0">Tikai izglītojošiem un pašrefleksijas nolūkiem. Šis nav diagnostisks instruments. Rezultāti nav klīnisks vērtējums.</div>
+  <h2 class="r-title">Tavs rezultāts</h2>
+  <p class="r-lead">Tavs rezultāts tiek salīdzināts ar Latvijas darbinieku pētījuma dalībniekiem. Salīdzinājuma grupu izvēlies šeit. Tā attiecas uz visiem zemāk redzamajiem rādītājiem.</p>
+  <div class="views" id="grp" role="group" aria-label="Salīdzinājuma grupa"></div>
+  <p class="plotmeta" id="grpmeta" style="text-align:left;margin:0 0 6px"></p>
+
+  <div class="cont" id="c-who"></div>
+  <div class="cont" id="c-naq"></div>
+  <div id="helpbox"></div>
+
+  <div class="cont">
+    <div class="hd"><span class="fname">Salīdzinājuma mākonis</span></div>
+    <p class="sub">Negatīvā izturēšanās darbā pret labbūtību. Tumšais punkts ar uzrakstu «Tu» rāda Tavu rezultātu.</p>
+    <div id="cloud-ui" style="margin-top:12px">
+      <div class="views small" id="mode" role="group" aria-label="Attēlojums"></div>
+      <div class="plot"><canvas id="cloud" width="460" height="440" aria-label="Izkliedes diagramma: negatīvā izturēšanās darbā pret labbūtību"></canvas></div>
+      <div class="dlegend" id="dens-legend" hidden><div class="bar"></div><div class="ends"><span>gandrīz neviens</span><span>ļoti daudz</span></div></div>
+      <p class="plotmeta" id="plotmeta"></p>
+      <p class="cap" id="cloud-cap"></p>
+    </div>
+  </div>
+
+  <div class="cont">
+    <div class="hd"><span class="fname">Negatīvās izturēšanās veidi</span></div>
+    <p class="sub">Vidējā atbilde katrā izturēšanās veidā skalā no 1 (nekad) līdz 5 (katru dienu).</p>
+    <div class="legend"><span><i style="width:12px;height:12px;border-radius:50%;background:var(--accent)"></i>Tavs rādītājs</span><span><i style="width:3px;height:14px;background:var(--series-b)"></i>dalībnieku mediāna</span><span><i style="width:18px;height:8px;border-radius:4px;background:var(--rule)"></i>vidējā puse dalībnieku</span></div>
+    <div id="types"></div>
+  </div>
+
+  <div class="cont">
+    <div class="hd"><span class="fname">Mobinga pašnovērtējums</span></div>
+    <p class="sub" id="self-sub">Kā uz to pašu jautājumu atbildēja pētījuma dalībnieki. Tava atbilde izcelta.</p>
+    <div id="selfdist" style="margin-top:12px"></div>
+    <p class="cap">Negatīvās izturēšanās biežums un tas, vai cilvēks pats savu pieredzi sauc par mobingu, ir divi atšķirīgi mērījumi. Pētījumos tie bieži nesakrīt, tāpēc abus rāda atsevišķi.</p>
+  </div>
+
+  <details class="about"><summary>Par mērījumu un salīdzinājuma datiem</summary><div class="inner about-text"></div></details>
+  <div class="note"><b>Kā lasīt rezultātus.</b> Abi rādītāji ir pašnovērtējums vienā brīdī. Robežvērtības ir skrīninga, nevis diagnozes robežas. Saistība starp negatīvu izturēšanos darbā un labbūtību neliecina par cēloņsakarību.
+    <details class="refs"><summary>Atsauces</summary><ol>
+      <li>Einarsen, S., Hoel, H., &amp; Notelaers, G. (2009). Measuring exposure to bullying and harassment at work: Validity, factor structure and psychometric properties of the Negative Acts Questionnaire-Revised. <em>Work &amp; Stress, 23</em>(1). <a href="https://doi.org/10.1080/02678370902815673" target="_blank" rel="noopener">https://doi.org/10.1080/02678370902815673</a></li>
+      <li>Notelaers, G., &amp; Einarsen, S. (2013). The world turns at 33 and 45: Defining simple cutoff scores for the Negative Acts Questionnaire-Revised in a representative sample. <em>European Journal of Work and Organizational Psychology, 22</em>(6). <a href="https://doi.org/10.1080/1359432X.2012.690558" target="_blank" rel="noopener">https://doi.org/10.1080/1359432X.2012.690558</a></li>
+      <li>Nowok, B., Raab, G. M., &amp; Dibben, C. (2016). synthpop: Bespoke creation of synthetic data in R. <em>Journal of Statistical Software, 74</em>(11). <a href="https://doi.org/10.18637/jss.v074.i11" target="_blank" rel="noopener">https://doi.org/10.18637/jss.v074.i11</a></li>
+      <li>Topp, C. W., Østergaard, S. D., Søndergaard, S., &amp; Bech, P. (2015). The WHO-5 Well-Being Index: A systematic review of the literature. <em>Psychotherapy and Psychosomatics, 84</em>(3). <a href="https://doi.org/10.1159/000376585" target="_blank" rel="noopener">https://doi.org/10.1159/000376585</a></li>
+      <li>Vanags, E., Ābeltiņa, M., Vanaga, A., &amp; Akmentiņa Smildziņa, I. (2025). <em>Darba vides pieredze un darbinieku labbūtība Latvijā</em> [Preregistration]. OSF. <a href="https://doi.org/10.17605/OSF.IO/BY8QM" target="_blank" rel="noopener">https://doi.org/10.17605/OSF.IO/BY8QM</a></li>
+    </ol></details>
+  </div>
+  <p class="r-next"><b>Ko darīt tālāk?</b> Kā atpazīt mobingu un kā rīkoties, ja to piedzīvo pats, redzi kā liecinieks vai vadi komandu: <a href="mobings-ko-darit.html">«Mobings darbā: kā to atpazīt un ko darīt»</a>.</p>
+  <div class="r-actions"><button class="btn ghost" id="restart">Aizpildīt vēlreiz</button><button class="btn" id="print">Saglabāt vai drukāt</button></div>
+  <p class="r-back"><a href="index.html">← Visi rīki un aptaujas</a></p>
+</div></section>
+
+<script>
+(function(){
+  "use strict";
+
+  // Salīdzinājuma dati. Tos ievieto R skripts 15_synthetic_reference_tool_v04.R.
+  // Rindas formāts: vecums|dzimums(1 vīr., 2 siev., 3 cits)|naq1..naq9|pašnovērtējums|who1..who5
+  var REF = {"meta":{"n":1472,"n_study":1577,"created":"2026-10-05","method":"synthpop CART, rm.replicated.uniques, age smoothing and top coding at 70","seed":20261005},"rows":["32|2|112111112|1|32223","41|1|222111111|1|32215","26|2|212111111|1|33323","43|2|121112121|1|32212","56|2|111111221|1|44554","63|2|211111121|1|44433","43|1|212112111|1|44443","41|2|111112121|1|42333","66|2|453222421|2|10312","29|2|211112121|1|33334","42|1|111111111|1|42323","48|2|111111111|1|32333","36|2|121121111|1|32334","33|2|222112111|2|44433","52|2|121111111|1|32322","19|2|211212221|1|32213","40|2|222111121|2|32334","53|2|222112221|3|11213","33|1|322222244|3|21101","48|1|111111111|1|44534","47|1|221122151|1|32323","29|2|112212122|2|33212","44|1|122112121|1|43321","28|2|212222132|2|31124","46|1|111112121|1|11100","46|2|445444222|5|11002","44|2|221231222|2|31213","47|2|423241215|1|10202","24|2|221122111|1|22233","26|2|111111111|1|42321","58|1|223222422|3|22222","49|2|214214452|5|11222","44|1|425224141|1|31101","33|2|322211111|1|34333","49|2|222111121|1|12323","40|1|211112121|1|22201","52|2|211111111|2|44444","34|2|222211112|2|22224","40|2|111121111|1|33444","19|2|121111111|1|54443","53|2|222222121|3|32324","53|2|111111111|1|55555","59|1|111111111|1|32333","27|2|222111211|1|10101","45|2|115211231|5|22223","33|1|333322234|2|33333","26|1|111111111|1|44445","33|2|111111111|1|54444","40|2|543414231|3|32234","54|2|222111122|1|21212","50|2|121111211|1|44445","51|1|211112111|2|11233","32|2|321444132|2|21111","38|2|112111111|1|33332","36|2|111111111|1|54444","25|1|111111111|1|43445","50|2|255323252|3|11003","38|2|355422524|3|01101","36|1|111111111|1|31214","55|2|422222221|3|12211","52|1|211111222|1|11111","46|2|324112542|1|11002","32|2|111111111|1|21223","57|2|222111111|1|22222","48|1|212121111|1|32241","43|2|111111111|1|42324","33|1|111111111|1|20111","47|2|222222211|3|42302","49|1|212211121|1|42223","49|2|255432522|5|12222","53|2|111111111|1|43413","44|2|121122111|1|21221","45|1|111111121|1|33221","33|2|111122112|1|43433","33|2|211122111|2|22223","44|2|221222112|2|43333","50|2|221212122|1|31223","43|2|112111111|1|43553","36|2|121112111|1|43442","35|2|121111111|1|44443","54|1|412112221|1|33332","32|1|224111412|3|11321","32|2|211111111|1|32101","51|2|111111111|1|12011","33|1|234222225|3|21213","39|1|111111111|1|33223","58|2|211111121|1|32224","34|2|111111111|1|10100","60|2|222211111|2|33343","41|2|132112111|1|43221","46|2|111111111|1|32324","52|2|242222141|5|10001","42|2|222222222|3|22212","46|1|211121222|1|41443","50|2|445543542|3|21223","31|2|334322141|3|21202","59|1|111111111|1|33224","44|1|121222112|1|43444","42|2|155223511|3|10223","39|2|111111111|1|44441","25|2|434344432|4|21111","41|1|111111111|1|42314","40|1|122112121|1|31111","59|2|242224232|5|43444","28|2|121311244|4|44443","45|2|121122121|1|22321","27|2|214212112|3|11100","30|1|111111112|1|43334","47|1|111111111|1|33242","37|2|112111121|2|11111","37|2|121111112|2|22234","52|3|221111111|1|43112","33|2|211112111|1|22222","33|2|222111111|1|21213","51|3|222211111|1|43334","47|1|423142324|3|12111","41|2|221112111|1|42222","44|1|221111112|1|44443","49|2|544224443|3|00000","35|1|331312221|1|31144","46|2|455544242|3|20203","58|2|222225221|3|10111","50|2|111111111|1|14111","50|2|443223241|3|12232","21|2|111111111|1|54333","28|1|212211111|1|33222","40|2|331252225|3|22111","51|2|211112111|1|42323","55|2|111111121|2|43434","43|2|555111522|5|00000","44|2|321211121|2|31313","40|1|221112222|1|23222","38|2|112111111|1|21112","37|1|232112221|2|01112","52|1|212112121|2|44444","32|1|222222211|3|55444","38|1|221111111|1|33443","43|2|221111121|1|44433","50|2|111111111|1|41323","44|2|111111111|1|43444","41|1|211111111|1|32334","44|2|122111211|1|21113","52|2|221112111|1|32244","31|1|212112221|1|01222","36|2|522223232|3|22323","48|2|211212111|1|32221","52|1|555511442|5|21313","48|1|112122111|1|33332","57|2|442222232|3|12110","55|2|222211221|2|22212","54|2|422122222|3|11111","37|2|112111111|1|32312","49|2|222221111|2|21212","22|1|122112114|2|31111","59|2|255554543|5|12110","38|2|222222121|2|21113","60|2|222222222|2|43444","23|2|121111111|1|31224","47|2|443152224|3|11111","34|2|121122222|3|11110","44|2|322222222|3|11111","62|2|111111111|1|44444","40|1|121211112|3|44233","33|1|312211121|1|21314","36|2|222212122|1|42222","44|1|111111111|1|34343","43|2|121111111|1|32212","61|2|321435152|3|21114","40|2|111111111|1|33443","50|2|212143132|2|33332","29|2|211112111|1|22304","57|2|222233222|3|11111","50|2|212112121|2|12111","39|2|121212112|2|21222","48|2|111111111|1|20111","47|1|111111111|1|33333","40|2|111111111|1|44441","29|1|111211211|1|12101","19|1|111111111|1|21101","38|2|222112111|1|42313","36|2|222112112|1|44434","48|1|212111111|1|43435","29|2|122112121|3|00000","34|1|214321112|3|22223","27|2|111111111|1|43333","51|2|424444443|4|11001","40|2|322212222|3|22222","50|2|222222222|3|12433","31|2|111111111|1|43324","47|2|221214144|4|21112","47|2|221111111|1|43333","53|1|212222121|1|44433","45|1|222433112|3|12120","32|2|222111111|2|42434","42|1|221222121|2|42213","39|2|222321111|1|33434","27|2|111111111|1|42313","63|2|111111121|1|44433","21|2|212111111|3|31213","43|2|555111522|5|01110","24|2|111111111|1|43314","43|2|111112112|1|44434","41|1|221212121|1|42431","28|2|112112221|1|43324","42|1|454112131|1|00001","68|1|222312221|3|12112","55|2|111111121|1|44544","48|1|212111221|1|32224","54|2|212111111|1|23112","32|1|111111111|1|44433","51|2|111111111|1|43324","42|1|245434445|4|12223","64|2|212122111|1|33342","39|2|121123121|1|32333","40|1|222112321|1|10001","36|2|222112111|1|22221","38|2|211111111|1|11323","58|2|121212111|3|11124","40|1|211112111|1|44445","44|2|123111131|1|11111","25|2|222112111|2|33313","62|1|211112121|1|33224","53|1|111111111|1|10111","46|2|111111111|1|32254","50|2|234111222|4|21120","50|2|221112111|1|44344","34|1|434115352|3|21112","21|2|211111211|1|31222","50|2|222122121|2|41332","24|2|111112111|1|43445","30|2|111111111|1|43333","52|2|242222122|2|11111","51|1|221112111|1|32251","56|2|231222111|1|24444","25|1|111111111|1|42313","54|2|222111111|1|24342","34|2|222112111|2|44442","46|1|212111111|1|11101","55|2|222212122|2|33322","36|2|222112222|3|01111","29|2|122214121|3|45444","37|2|221111111|1|32324","49|1|111111111|1|53444","43|1|424345452|5|11102","53|2|111121111|1|54444","45|2|425355455|5|22222","49|1|211111111|1|32223","51|2|111111112|1|12122","32|1|424323342|1|11312","19|2|422112122|3|33324","56|2|122222222|3|10111","41|1|222122121|1|42213","55|2|111111111|1|44445","46|2|225214142|3|22232","52|2|242222121|3|10110","29|2|211112121|1|33334","39|2|211111111|1|22222","51|2|221111111|1|43334","45|2|222122111|1|42224","42|2|222122222|3|22223","34|2|222445242|3|10101","40|2|242322111|2|11112","36|2|112111111|1|42324","24|2|224144534|3|21222","40|2|111111111|1|34112","47|1|122111111|1|43343","50|2|225212211|2|32112","48|1|121222111|1|53323","24|1|111111111|1|44443","33|2|214211212|2|32224","59|1|111111111|1|44544","21|2|211212121|2|31112","54|1|222112221|2|22222","34|1|122221111|1|34223","60|2|222211232|1|21111","25|1|111111111|1|33114","69|2|111111111|1|44534","55|2|213222421|3|11222","33|2|435113441|3|22232","37|1|222222243|3|22223","46|2|422222422|3|11101","65|1|111111111|1|44344","24|2|222111111|1|33322","34|2|222211111|2|41212","52|2|211211111|2|50315","35|2|111111111|1|32223","42|1|122111111|1|43345","20|1|112211111|1|33321","32|2|211121111|1|34334","45|1|112111111|1|42434","36|2|111122121|2|22223","48|1|412112221|2|10414","34|1|111111112|1|10101","29|2|124321222|2|21223","48|1|212111111|1|43434","42|2|211111111|1|43334","51|2|425322224|3|11112","46|2|422122131|1|21222","25|2|121333451|1|33112","29|2|221222111|2|42223","47|1|111111111|1|33333","52|1|211111111|1|33213","44|1|111111111|1|43224","48|2|222212222|2|11111","49|2|322122143|3|22222","29|2|212212132|2|42224","53|1|222222121|1|33334","43|2|121111112|1|32132","36|1|211111111|1|20111","37|2|211111111|1|54444","37|1|311111111|1|41323","37|1|212112221|2|11111","42|2|111111111|1|11241","32|2|214212242|2|33224","28|2|122321111|2|50422","36|2|444555455|5|21112","36|2|211111111|1|31212","49|2|112124121|1|33333","46|2|312213221|1|32223","70|2|111111111|1|55555","33|1|112111111|1|22221","50|2|222211111|1|11112","39|1|111211111|1|43335","33|1|122112221|1|42424","28|2|121221211|1|22323","37|1|412112221|2|43434","44|3|123222222|1|44433","46|2|221212233|2|31214","55|1|222121111|1|14111","61|2|344345452|5|12114","42|2|122111121|3|32223","39|2|212112221|3|23223","26|2|212112111|2|33333","30|1|211121111|1|34111","51|2|221212111|2|51344","61|1|111111111|1|33214","26|2|111221122|2|42313","28|2|342123331|1|30205","25|2|435225543|5|21112","53|1|454312222|3|22423","33|3|322113111|2|42433","33|2|112111112|1|32112","29|2|221211122|2|22221","28|2|331313131|1|32414","50|2|221112112|1|44323","45|1|111111121|1|31344","28|2|231211211|2|43334","43|2|111121121|1|44535","33|1|232212254|3|20101","39|1|111111111|1|32224","31|1|111111111|1|10111","48|2|111111111|1|32323","61|2|211112121|1|43224","59|2|222112121|3|10101","22|1|111111111|1|42334","34|2|121111112|1|22222","23|1|121111111|1|44335","35|1|211112111|1|53433","58|2|211111111|1|33334","36|1|111111121|1|22323","50|2|222212122|1|33343","41|2|212111111|1|23212","34|1|111111111|1|44444","31|2|223111121|1|11101","50|2|225222321|2|22213","46|2|222312221|2|22323","49|2|255552435|5|00111","35|2|322442122|2|11111","33|2|112111221|1|11111","33|1|312111121|2|11111","39|2|211112111|1|22211","67|2|422222121|2|43223","44|1|122112121|1|31314","56|2|111111221|1|43434","33|2|211112111|1|22232","61|2|212123221|3|10111","38|1|521112121|1|32224","36|2|222111121|2|11111","39|2|111111111|1|45324","46|2|422212222|3|12222","51|2|112111221|3|44443","63|1|121111211|1|44444","47|1|423243224|2|22344","47|1|111111111|1|33334","38|2|111111111|1|45445","19|2|435144442|5|10111","38|2|225221511|3|11111","38|2|222112111|1|42222","47|2|222222222|3|11101","46|1|212111111|1|42432","54|2|222212122|2|22222","46|2|211112111|1|32233","38|1|111121111|1|41112","42|2|112122112|1|11212","41|1|221212221|2|54545","43|2|221111111|1|21222","37|1|211111111|1|44445","38|1|222222243|2|11111","40|2|221211421|2|43323","51|2|222212221|2|43333","51|1|222111111|1|42454","48|2|332122111|2|41222","33|2|111111111|1|21223","41|2|121111111|1|23331","37|2|222112121|1|42322","47|1|255444252|5|00005","22|1|111111111|1|43332","48|1|112111111|1|11111","48|1|211111121|1|11221","55|2|213332232|3|12111","35|1|111111111|1|44444","59|2|422222221|3|31225","49|1|111111111|1|44444","37|2|111111111|3|11101","19|2|435315223|5|21113","53|2|111111111|1|55554","28|1|221211111|1|44324","33|2|435112422|3|44422","23|2|111112111|1|43223","54|2|222211241|2|44444","58|2|211111111|1|10111","56|1|111111221|1|12111","31|2|121212121|2|44431","33|2|111111111|1|43434","40|2|111121131|1|32412","23|2|211212111|2|22332","27|2|111111111|1|32223","63|2|111211111|1|44434","57|2|523222222|3|01111","46|2|212211221|1|11212","32|2|112122212|1|23333","47|2|222111111|1|22333","70|2|111111111|1|44444","36|2|111111111|1|32222","40|1|212123141|1|11112","36|1|111111122|1|22223","48|1|111112122|1|32224","40|2|111111111|1|44445","55|1|222111111|1|12113","46|2|211112111|1|33444","45|2|111111111|1|22333","35|2|424245241|3|21110","55|2|221122221|3|10111","50|2|214212122|4|21223","37|1|212111121|1|32204","50|2|222122221|3|11111","52|1|222222121|1|33343","58|2|121212121|3|12111","47|2|211111111|1|21211","28|2|222321122|2|31111","58|2|222112121|3|10112","47|2|212212122|1|31111","31|2|211211112|1|10001","37|2|222111121|2|44554","32|2|221112111|1|42322","32|2|111111111|1|33323","49|1|211111111|1|44433","48|2|225214142|5|11212","55|2|122222121|2|22212","56|2|112214131|3|01202","60|2|111111111|1|43421","51|2|111111111|1|21123","36|2|422114243|3|33444","38|1|212111111|1|22223","37|2|222112111|2|42211","23|2|112111111|1|42333","45|2|211112121|1|31213","51|2|111111111|1|22121","34|1|322344241|1|31122","23|1|122214141|1|10215","28|2|221221211|3|20222","34|2|121112111|1|33324","49|2|222222222|3|32213","54|1|211122111|1|12224","46|2|225412212|4|22203","46|2|442132121|1|00000","53|1|222225151|5|21005","31|2|232233122|3|21111","45|2|455424254|4|31222","33|2|122111111|1|33324","38|1|522413223|2|22234","31|2|223342453|3|11112","50|2|222221211|2|14341","42|2|122111112|1|44444","49|2|311121111|1|10424","37|1|233121211|1|31122","28|2|222224122|2|21113","49|2|533221243|3|10103","19|2|111111111|1|32234","46|2|221122121|1|31211","39|1|555544242|3|10311","45|2|211111111|1|22223","40|1|111111121|1|33444","55|2|222112121|2|44444","31|1|125111412|2|22223","38|2|222212121|2|31111","28|2|111111111|1|42101","40|2|245121311|3|44210","31|2|122333121|2|42444","59|2|111111111|1|41423","58|1|211111211|3|10113","34|2|112255144|4|20001","59|2|222211111|1|41412","36|1|223122221|1|32344","32|1|111111111|1|55544","39|2|555512555|5|12111","46|1|212131111|1|12232","31|2|311112111|1|43413","53|2|222112121|2|32323","59|2|222222111|1|42224","59|1|111112112|1|44344","60|2|211112111|1|33343","45|2|222222122|3|22241","41|2|111111211|1|44444","35|2|411112111|1|43213","39|2|111111111|1|44443","25|2|111111111|1|54444","41|1|311111111|1|23231","41|2|252233232|3|44334","24|2|211121111|1|20223","51|1|222222122|1|22114","33|1|211212111|1|42321","25|2|211111111|1|32234","35|1|121111111|1|44432","45|2|222222122|5|12223","48|1|421222111|1|10002","50|2|544212255|4|12111","56|2|111111211|1|44444","41|2|214212211|2|33331","58|1|121212111|2|44221","30|2|111111111|1|32224","61|2|341424231|3|01101","54|2|111111111|1|32332","35|1|111111121|1|22221","38|2|211111111|1|21222","22|2|111211111|2|32203","33|2|434344243|3|00002","52|1|221111111|1|44221","45|2|112111111|1|11111","53|2|211121111|1|42442","37|2|311111111|1|31122","61|2|241112121|1|41333","49|2|121111111|1|44444","37|1|313112143|3|21102","43|2|111112221|1|32223","50|2|254445455|5|12213","53|2|212112121|2|21113","44|2|123111121|1|43324","44|2|425233343|4|00001","44|1|122112121|1|21223","24|1|111112121|2|44444","49|2|222111121|1|22433","46|1|111111111|1|32302","29|2|221221112|1|21213","37|2|222122222|3|11111","58|2|222112221|1|43323","52|2|111111111|1|10311","51|1|221122111|2|32223","35|1|122212122|1|22243","44|2|111111111|1|42324","60|1|111112221|1|44444","44|2|425112431|5|01001","48|1|221122121|1|31214","38|1|521422525|4|21211","52|2|525345241|4|32212","46|2|121122111|1|22211","29|1|225212113|2|23222","41|2|222112111|1|41113","43|1|111121121|1|32224","46|2|221212121|1|31314","31|2|211112111|1|43432","32|1|111111111|1|33212","45|1|111111121|1|33224","56|1|111111111|1|44444","65|2|341122221|3|43445","22|3|144412122|3|11001","49|1|222224232|2|10203","49|2|222112121|2|11111","53|1|111111111|1|55555","39|2|322122221|3|21213","48|1|212211121|1|42443","46|2|221112121|3|11111","27|2|221211121|2|30313","33|2|211212111|1|10013","42|2|225211521|3|22434","43|1|111121111|1|31214","32|2|524555425|4|10102","44|2|222122221|2|11222","53|2|312133131|1|10113","40|1|111111111|1|21112","38|1|213122121|1|43435","58|2|111111111|1|23112","48|1|111111121|1|32313","58|2|222112221|2|11111","49|1|111112112|1|22111","28|1|211112111|1|42303","37|1|111111111|1|32313","37|1|211212111|1|31344","41|1|211111111|1|22202","40|1|111111111|1|54544","38|1|212111121|2|21110","26|2|211111111|1|22221","31|1|111111111|1|22232","49|1|111111111|1|44444","31|1|322112221|3|00001","48|2|453142222|1|00001","45|2|211111111|1|32222","33|2|221211211|1|44112","29|2|112112114|2|11110","32|1|111111111|1|21111","59|2|244122221|4|10001","40|2|242312522|2|11122","53|2|122111111|1|24444","50|1|421112121|1|10434","41|1|214114221|3|23144","25|1|211111111|1|43323","45|2|112111111|1|21114","20|2|422114142|4|31204","60|1|222112221|1|44144","31|2|334222235|3|42214","51|2|111111111|1|43555","36|1|111111111|1|32525","60|1|111111111|1|55555","30|2|111111111|1|32224","42|1|422212212|1|22222","41|2|211112111|2|32311","46|2|212111111|3|32222","69|1|111111111|1|33344","23|2|254211211|5|32224","42|1|222111111|1|54554","26|2|111111111|1|43443","30|2|111111111|1|44444","60|2|222223222|5|41435","28|2|112111221|1|33222","48|1|313121222|2|34434","43|2|121111121|1|32323","39|1|322212112|1|10314","56|1|211111111|1|44433","41|2|111111211|1|22222","56|2|121211211|1|43444","51|2|425232211|3|21214","37|2|221111111|1|32344","65|2|455544443|3|00003","33|2|221111213|1|44440","34|2|111112111|1|10101","53|2|211122111|1|44444","62|2|121111121|1|22324","63|2|222222211|3|12111","33|2|211212122|3|21113","36|2|121111111|1|43334","42|2|112111111|1|11121","26|2|332322255|4|22221","59|2|222211122|2|22332","45|2|221211112|1|42224","43|1|111112121|1|32223","52|2|111211111|1|44444","38|2|122111222|1|43233","58|2|211111111|1|10203","47|2|211111111|1|22322","34|2|224223255|2|21203","53|2|111111111|1|55555","60|1|121212111|3|10111","47|2|122121121|1|11111","39|2|455445152|3|43231","49|2|213145444|3|11223","58|2|211111111|1|52324","50|1|312111111|1|32333","62|1|111111111|1|43331","36|2|121112121|1|11111","43|1|111122121|1|32424","42|2|222122222|2|32434","30|1|111111111|1|22222","47|1|122112121|1|21414","26|1|111112121|2|42323","34|2|121154245|4|22242","56|2|255544442|4|00100","41|2|121111111|1|43231","38|2|122222221|3|22221","36|2|111111122|1|20112","52|2|222112121|2|22213","49|2|212211211|3|43344","38|2|221212122|1|55555","47|1|421111111|1|42435","39|2|222122221|3|43323","47|2|212211111|1|42424","60|1|111111111|1|32343","42|2|525222542|5|10213","43|2|221112222|1|33344","40|2|521322521|2|22223","48|1|424424243|3|21221","47|2|422122142|3|11211","25|1|111111111|1|31314","46|2|212122222|3|44443","33|1|111122111|1|22221","40|1|222122221|2|22121","24|1|111111111|1|44445","59|2|242112121|1|32224","38|3|121122221|1|42314","65|1|111112111|1|41411","56|1|222111111|1|15111","37|2|322222244|3|21101","25|2|211111211|1|32222","53|2|213121421|2|12110","48|2|322222222|3|44445","25|2|222212122|2|32204","40|2|324222221|3|12232","41|2|245514231|4|10101","57|2|222211111|1|20413","26|2|311122121|1|44413","68|2|111111111|1|44444","35|1|243224221|3|33334","46|1|211121212|1|13013","28|2|211112111|1|33324","47|2|212111111|1|22231","65|2|234332221|4|12421","68|1|111111111|1|34442","54|2|111111111|1|22122","48|2|111111111|1|41223","51|2|214323231|4|33332","25|2|421111111|1|32334","32|2|111111111|1|44324","36|1|222212122|2|43444","44|2|454121531|5|00110","42|1|211131121|1|32333","30|2|222212122|2|11111","43|2|112111311|4|32223","30|2|422123122|1|12121","35|1|111111121|1|33333","49|2|111111111|1|54554","44|1|122112121|1|22134","41|2|244424443|3|22215","46|2|232211111|1|22223","35|2|111111111|1|43332","19|2|112111211|1|42325","44|2|111111111|1|32223","34|2|121111111|1|43322","20|2|111111111|1|44444","22|1|111111111|1|44335","61|2|221211211|3|24222","34|2|111111111|1|10100","41|2|242332112|3|11000","56|2|111111221|1|32123","56|1|211111111|1|44444","64|2|211111121|1|44443","46|2|111111111|1|12324","35|2|311113121|2|22333","37|2|112111122|1|10000","46|2|111111111|1|33333","47|2|455344252|5|44444","52|2|525223242|5|00001","49|2|111111111|1|22122","48|1|221112111|1|32233","39|1|212112521|1|00001","36|2|212112111|1|33332","34|2|221212121|1|22211","33|2|211111111|1|22222","40|1|222112212|1|44404","49|2|222222222|3|11111","49|2|424434144|2|10111","34|2|211222111|2|22111","52|1|221111111|1|44343","50|1|221111111|1|44445","45|1|222222122|1|32213","49|1|111111111|1|21102","33|2|112111221|1|22312","50|2|222153115|2|22224","49|1|111111111|1|32223","33|2|112112111|1|33323","39|2|212123222|3|44412","42|1|245212233|3|10204","57|2|524323222|4|10111","43|2|221111111|1|22222","37|2|225412522|4|44434","40|2|221112111|1|43213","48|2|225114512|3|22222","40|2|111111121|1|23231","53|1|222111111|1|43444","43|1|111111111|1|11011","30|2|212212121|2|40433","49|2|121121121|1|12222","39|2|121132121|2|22110","35|2|221221111|2|21213","58|2|111111111|1|33325","50|2|444222331|3|10101","41|2|122112111|1|43233","26|2|211111111|1|22222","42|1|322231222|1|22101","38|2|121111111|1|33343","37|2|221111111|1|33444","37|2|221112111|1|44434","42|1|221113141|3|11114","29|2|122311242|2|21315","45|2|222414143|3|21113","46|1|221111111|1|11124","40|2|111111111|1|33332","39|2|455555555|5|01001","46|1|131311212|1|32322","46|1|212111111|1|10101","40|1|222111111|1|44221","37|2|222112121|2|44444","47|2|222112112|3|22231","39|2|111111111|1|44445","35|2|211113121|1|32224","48|2|225113541|3|42314","34|2|424245521|5|10001","44|1|411111111|1|41114","49|1|111112121|1|21111","32|1|111111111|1|44444","45|2|212111112|3|10000","42|1|222222222|2|34443","40|2|211112111|1|32222","40|2|111111111|1|43433","34|2|424332241|3|11001","45|2|212112111|1|22232","44|2|455544542|3|01111","60|2|211112121|1|43344","49|2|121211111|2|52434","42|2|221111111|2|22222","40|1|111111121|1|22223","37|1|111111111|1|32323","38|2|211111111|1|43213","50|1|211111111|1|44444","19|2|231111111|1|31213","39|1|522544242|3|21222","55|2|222112221|2|11111","33|2|111122112|1|43333","35|2|422114132|3|43424","30|2|413115153|5|01114","48|1|111111111|1|33334","35|1|231333445|3|11111","40|1|222112221|1|22223","27|2|545211422|5|30313","42|2|313112231|3|22222","31|1|211111211|1|44444","32|2|112111111|1|33222","48|1|314122121|2|41443","41|2|111111111|1|44443","47|2|225222211|3|11424","39|2|211111111|1|42334","19|1|212111121|1|21110","51|2|111111111|1|21223","38|1|212122221|1|32324","33|2|111121121|1|22213","28|1|224211412|3|21223","57|1|234222141|3|11001","46|1|221112221|1|42414","45|1|221111111|1|11114","21|1|111111111|1|54444","41|2|111111111|1|44444","33|2|112111112|1|32224","39|2|421222111|3|31142","20|2|211211112|1|32214","54|2|222211211|3|44335","41|1|245434243|4|22113","31|2|222142325|5|12112","53|2|222112221|3|10123","47|2|224222211|1|43343","61|2|221113121|1|32325","46|2|121111111|1|32333","36|1|221212132|2|32312","27|2|111111111|1|42111","37|2|232124241|1|10102","58|2|111111111|1|44445","31|1|121211112|1|43334","37|2|223124341|1|10101","47|2|324442222|3|00101","62|1|121211121|3|10213","24|1|211111111|1|34212","26|2|211121121|1|33323","50|2|121111111|1|44443","25|2|211111111|1|34212","36|2|221212111|3|22223","24|2|211111111|2|44314","41|2|212112111|1|22211","50|2|222122221|2|21112","49|1|121212121|1|11111","28|2|111111111|1|32234","48|2|222222221|3|54435","44|2|324212212|5|22312","46|1|222211222|2|43324","37|1|212112211|1|44402","43|2|222112121|2|00001","34|2|211242111|1|33424","45|2|224114241|4|22313","40|2|545322453|4|22112","45|1|211111221|1|43443","35|2|424323342|2|11222","43|1|111111111|1|32124","29|1|212212121|1|33334","52|2|222141112|1|22234","51|2|525322224|5|10112","57|2|222225254|3|10121","24|1|211211122|2|44544","48|1|211111111|1|32223","57|1|222112221|1|33333","40|2|222112111|1|42323","40|2|111111111|1|44223","30|2|111111111|1|43415","33|2|322213122|1|22321","43|2|255554545|4|11111","44|2|455554542|3|11111","35|2|222222211|2|54333","46|2|222211112|2|32332","43|1|111111111|1|31112","42|1|454434442|2|11112","60|1|111111111|1|55555","59|2|222112121|1|22221","46|1|221221121|1|11112","31|2|211112111|1|43332","42|1|221212221|1|32232","36|2|212213121|2|44414","61|2|221221212|3|12411","47|2|211111111|1|22222","42|2|221222212|2|33444","40|2|521232322|3|10001","38|1|111111111|1|42333","43|2|524221211|4|01213","34|2|111111111|1|44324","25|2|111111111|1|33324","32|2|111111111|1|44444","34|2|112112111|1|44444","60|2|222211242|2|21303","28|2|112212112|1|31223","54|2|222222111|1|44223","60|1|112111111|1|44434","47|1|423141214|3|11211","35|1|214111122|2|20112","21|2|222113111|2|44324","43|2|111122131|2|44444","45|2|211211121|2|31112","64|1|121222111|1|55555","51|2|222111111|2|43333","48|2|212122111|2|10222","52|2|213114221|3|01100","46|2|222322422|2|44444","42|2|111111111|1|43335","23|2|111111111|1|44444","29|1|111333541|2|43433","46|2|555322553|5|12114","38|1|111111111|1|43333","47|2|122111111|1|22223","19|2|212111111|1|32214","52|1|221122111|1|13324","33|1|211111111|1|41322","37|2|322222222|3|33333","29|2|112112121|3|01102","32|1|111111111|1|33324","28|2|222211112|2|10001","43|2|212114121|2|44434","49|2|225222521|3|21214","38|1|222122221|2|11111","45|2|224222522|4|22202","46|1|211111211|1|32223","59|2|222111121|1|43334","39|2|211112111|1|22223","49|2|222112121|2|11111","60|2|222211221|2|30423","32|2|221121211|2|11222","35|2|222342125|1|42222","51|1|111111111|1|21112","43|2|123222122|3|22212","62|2|212121111|1|22111","41|2|111111111|1|43231","20|2|124111221|1|31244","38|2|222111121|2|33334","41|1|221211421|1|43324","36|2|212212121|2|22334","48|2|422222242|3|43324","35|1|222212221|3|11104","30|1|211112211|1|44555","20|2|112211111|1|32234","54|1|122111111|1|33241","42|2|221122121|1|42321","39|1|111111111|1|32222","50|2|223433342|1|32221","39|2|545545222|5|21112","41|2|222222222|3|22223","46|1|111111111|1|44443","25|1|111111111|1|42101","66|2|211112111|1|12212","35|2|111111111|1|33335","41|1|321212122|1|30314","27|2|111112121|1|43322","44|2|111111111|1|42324","41|1|221212221|1|43322","46|2|243213131|3|13231","54|2|442222221|4|20203","36|2|121112121|1|22324","49|1|111111111|1|32323","56|2|222112121|1|44433","45|2|211111111|1|21212","25|2|111112111|1|43322","41|2|111111111|1|44443","28|2|122212112|1|41121","55|2|111111111|1|44335","42|2|121111111|1|33435","49|1|111111111|1|44444","42|2|221112121|1|44444","36|1|222111111|1|33332","41|1|122111111|1|54555","39|2|245423444|4|00101","55|2|213113131|2|43334","41|2|222122222|3|33334","42|2|222123111|1|43333","35|2|425234441|3|21112","32|2|221122111|1|22121","42|2|121111121|1|44554","37|2|211111111|1|54444","33|1|111111111|1|44444","44|2|122221211|2|32224","59|1|111111111|1|44445","42|1|222111111|1|41412","49|2|121231221|1|11111","47|2|222221211|2|41112","26|1|211111111|1|34433","57|1|211111111|1|44434","41|1|222212111|1|22324","59|1|111111111|1|31223","50|1|221221111|1|42324","50|1|222225222|3|13233","40|2|221111211|1|33333","35|2|211111111|1|43324","44|2|212121112|2|21112","54|2|222112111|1|22223","38|2|211111111|1|23322","27|2|111111111|1|32101","34|2|111111111|1|11032","37|2|222112111|1|41122","36|2|212122212|1|22223","32|2|112212221|1|11014","50|2|222111121|1|42323","35|2|121111111|1|44444","60|2|322212151|2|31213","41|2|255122422|2|00001","34|2|121122112|1|33214","46|2|454432233|3|42221","46|2|111111111|1|11110","31|1|111111111|1|33232","40|2|242414135|3|22222","46|2|212111111|2|32334","39|2|222112542|2|33324","43|1|111111111|1|43344","38|1|211121111|1|11311","26|1|111211111|1|44333","35|2|211112111|1|32324","56|2|221111111|1|44433","40|2|112111111|1|23222","35|2|445555454|4|21131","34|2|224221211|2|31122","43|1|111111111|1|44444","19|1|111111111|1|43433","58|2|111111111|1|41314","38|2|221222221|2|54433","40|2|111111111|1|11124","25|2|331323533|3|44433","52|1|221121121|1|44433","45|1|221111111|1|11124","38|1|544211121|3|21313","38|1|121112122|2|42223","27|2|221221223|3|32214","34|2|213122242|3|11100","56|1|222122121|3|22222","38|2|121111112|1|41225","39|2|224232221|2|21212","21|2|122112114|1|43343","44|1|212112121|1|42110","22|2|212111111|3|32212","35|1|111111121|1|20101","54|2|222112121|2|22222","45|2|212112121|1|44444","59|2|111111111|1|43331","53|2|111111111|1|55555","58|2|211111111|1|55554","50|2|121111111|1|22224","36|2|221111111|1|32323","39|1|211111111|1|11312","34|1|222344241|3|11103","47|2|222111111|1|42333","44|2|211111112|1|44445","49|1|111111111|1|44444","23|1|112212132|1|11112","43|1|245514135|3|10334","28|2|124212223|3|22222","39|2|212112111|1|44212","42|1|422215142|5|22332","36|2|222112112|1|44442","38|1|222112222|2|32324","49|2|544454445|4|12111","41|2|222112121|2|23212","40|1|222111111|1|21110","25|2|211111211|1|33313","31|2|112111112|1|24213","42|2|455114253|3|44423","34|1|222444122|3|22215","57|2|121122112|1|44444","55|2|221112111|1|33323","44|2|453222111|3|43332","41|2|211114121|2|22222","41|1|221111111|1|41112","54|1|212111111|1|43224","45|2|222114241|4|10111","42|1|211121111|1|12232","32|1|111111111|1|44324","34|2|424244432|3|10111","47|2|222222222|3|11214","37|1|111111111|1|33223","52|1|212112111|1|44333","32|2|211342111|2|10101","40|2|111111111|1|43335","36|1|122222211|1|10202","25|2|244333255|5|21112","51|2|222211211|3|44345","41|1|111111111|1|33333","44|2|221112111|1|21222","35|1|231113141|3|20122","52|1|212122121|2|21233","59|2|222222222|3|10111","41|2|211111111|1|22313","37|2|455112221|3|21111","59|2|111111111|1|32224","52|2|111121111|1|34445","23|2|212112221|3|11111","54|1|211121111|1|22115","22|3|111111111|1|44445","69|2|212112111|1|41313","40|2|222124211|1|32324","43|2|533221111|3|32221","20|2|425345421|5|10114","63|2|221212111|1|33222","43|1|245424124|2|10011","47|1|433111142|3|21101","34|2|224223541|2|00010","36|2|521221311|3|11223","38|2|132221212|1|32221","32|2|435222435|3|21222","44|1|111111111|1|11221","33|1|124212123|4|44441","43|1|524243221|3|33332","34|2|112111212|1|22313","59|1|222222111|1|14341","41|2|111111111|1|54454","39|1|222323142|1|22221","51|2|212155154|5|12011","28|2|211121121|1|42333","42|2|221114131|1|42212","34|2|121121121|1|32333","36|1|121112111|1|42223","46|2|112121111|1|11221","53|2|222112121|2|11114","29|2|122111211|1|22221","28|2|221233233|3|31120","48|2|423112121|2|22231","34|2|121112111|1|54444","42|1|122112121|1|43233","54|1|222112221|1|33333","42|1|211121111|1|12232","32|1|111111111|1|21101","54|2|122212221|1|22211","26|2|111111111|1|22223","31|3|212212121|2|33334","44|2|212212131|1|22333","52|2|121111211|1|44444","20|1|212122422|3|43434","45|2|222111111|1|11122","55|1|222112222|2|12330","35|2|211112111|1|44444","51|2|422212222|2|22223","39|2|311112111|1|22222","38|2|212121222|5|42314","48|1|111111111|1|32312","28|2|212211112|2|10000","48|1|111111111|1|44444","31|1|111111111|1|44324","42|1|322222221|3|21101","48|2|222212152|4|11111","51|2|424444241|4|11110","33|2|321332122|2|31122","48|2|455424354|5|10101","52|2|222122222|3|10321","45|1|211111111|1|43444","26|1|222323112|2|00001","30|2|211122122|1|30215","25|2|211121121|1|45555","27|1|111111111|1|33213","40|2|512211121|2|10100","51|1|222214252|4|10203","51|2|223213232|2|00011","32|1|111111111|1|54444","58|2|211111111|1|33324","58|1|111112112|1|55545","59|2|211111111|1|32222","23|2|243312111|1|32432","43|2|311132121|1|42324","38|2|212222112|2|21314","44|1|212111111|1|44334","54|2|342212221|2|43443","38|2|521514223|3|21112","46|2|211112111|1|42333","45|2|111211121|2|52223","46|2|112111111|1|11102","42|1|122112121|1|42321","40|2|544425145|5|11100","35|2|121111111|1|44142","37|2|111111111|1|31212","59|2|121212121|2|51203","36|1|221211111|2|10221","32|2|211112111|1|33424","51|1|221121121|1|13443","29|2|221112111|1|22124","42|1|221122221|2|33324","41|2|111111111|1|33433","30|2|211112112|1|22222","59|2|111112221|1|22222","41|2|231322222|3|44443","47|2|454424253|3|42221","45|2|111111111|1|22211","62|2|211113121|2|22222","51|2|111111111|1|44444","52|2|311221121|2|54554","35|1|425233222|3|22322","20|2|435221523|5|33332","41|1|222212221|1|11112","36|2|224222222|3|11111","36|2|212112221|1|22223","33|1|221221212|3|20223","24|2|111112111|1|43333","38|2|522233243|2|22323","29|1|524244431|3|11311","31|2|123123221|1|00002","41|2|213122221|3|11111","47|1|111111111|1|33333","50|2|222422221|3|41343","23|2|212111111|2|43344","33|1|111121111|1|21101","32|2|112112121|3|42214","52|2|222142124|1|22222","48|1|312112211|3|22221","58|2|122221221|2|31204","47|1|111111111|1|33343","34|2|111112111|1|10000","45|1|111111111|1|32243","43|1|412114221|1|31222","40|2|112111111|1|21112","40|2|211111111|1|33332","48|1|322113221|3|32225","55|1|111111111|1|43454","25|2|435222522|3|44412","38|2|133332221|3|12311","55|1|222111111|1|12222","64|2|522122243|3|00001","20|1|111112111|1|44444","44|1|111112221|1|32213","44|2|111111111|1|43333","37|2|332224232|3|00000","32|1|111111111|1|44324","25|2|412121122|1|20203","25|1|111111111|1|42101","60|2|222114231|3|10114","33|2|111111111|1|43324","47|1|121111211|1|44445","60|2|211111111|1|33334","44|1|121111111|1|44444","52|2|222112221|2|11111","25|2|212111111|1|44444","33|2|112111111|1|11001","44|2|222122111|2|42323","49|3|222111111|3|43333","70|2|211111111|1|33224","33|2|221111223|2|22213","31|2|111111111|1|11101","39|1|111111111|1|34333","24|1|111111111|1|44445","50|1|223214241|3|11103","65|2|211121111|1|11111","58|2|222222222|3|22222","38|2|213222221|3|22233","31|2|122122311|4|10002","50|1|311111111|1|44443","27|1|222311122|2|10202","30|2|222112121|1|44422","36|1|111111122|1|33334","58|2|121212121|1|11114","57|1|221222111|3|10124","27|2|111111111|1|21111","55|2|444211221|3|12232","31|1|225211412|2|22224","59|2|222222222|2|22231","22|2|221121211|1|32312","53|1|111111111|1|55555","47|1|423111221|1|20213","42|2|122231212|2|13341","52|1|211111111|1|43111","57|2|111111111|1|44332","19|2|121312223|3|44433","25|2|411333241|2|22222","44|2|211111121|1|43325","48|2|222222222|3|43335","40|1|222111111|1|32223","30|2|111111111|1|43324","47|2|221112111|1|42434","49|2|222111111|3|32324","41|1|221223121|1|44412","66|1|112111111|1|11324","62|2|111111111|1|52453","47|2|221211111|2|20314","48|1|211112111|1|44334","55|2|221122221|1|33333","42|2|322233142|1|33333","46|2|222111111|2|22233","29|2|221211212|1|33332","38|2|111111111|1|43324","35|2|111111111|1|11324","50|1|232111221|2|22222","26|2|111111111|1|44333","31|1|111111111|1|11111","51|2|252232122|2|31113","38|2|111111111|1|43244","50|1|232222221|1|41214","36|1|211111111|1|42224","31|2|112111112|1|33323","39|2|211111111|1|11111","35|2|211111111|1|32222","51|2|111111111|1|44444","43|2|111111111|1|11011","49|2|111114132|1|12213","39|1|212111111|1|43334","56|2|212111111|1|22211","35|2|111111111|1|33323","39|3|142321111|3|11102","26|2|211111121|1|44424","33|2|222222121|1|33333","53|2|222112221|2|10202","45|2|112112111|1|44444","33|2|211111111|1|33324","56|2|223212121|3|11101","32|1|211121111|2|22223","45|2|224213232|5|00000","46|1|212212121|1|11003","52|1|222212121|1|44431","39|1|212112221|1|22224","46|2|455344141|2|22332","43|2|111111111|1|44434","52|1|222212221|3|22222","29|2|212111111|3|11103","23|2|111111111|1|32214","40|2|111121111|1|32323","33|2|424321321|3|21313","47|2|332112332|3|41332","68|2|455424442|4|00525","43|1|522211112|2|11101","41|2|222111111|1|23222","43|2|111111111|1|32223","25|2|111111111|1|43315","41|1|111111111|1|33444","47|1|111111111|1|44444","19|2|422212212|2|21111","27|1|111111111|1|33333","47|2|121122121|1|11111","54|1|111111111|1|14333","19|2|215321241|2|20111","45|2|121122121|1|31334","46|1|422115221|4|20102","27|2|221233241|1|45423","61|2|522252225|5|00001","44|2|222111121|2|33331","53|2|111111111|1|55555","37|2|111111111|1|31222","54|2|434444544|5|00001","43|2|555211412|5|00511","42|2|212211111|1|10104","34|2|545122552|5|44555","48|1|221111111|1|43444","36|2|111111121|1|21132","22|1|121111111|1|44444","45|2|211212122|2|21211","42|1|222122111|1|32334","49|2|524242221|4|21214","49|2|242222121|2|11111","46|2|211121112|1|12113","58|1|522111111|1|11002","46|2|111121111|1|32224","49|3|222225141|2|11104","45|2|112111111|1|22223","41|1|211113121|1|11113","46|2|222122222|2|11321","37|2|222112222|3|11111","42|1|222222122|1|42332","33|2|211111111|1|22221","54|2|222221111|2|20333","43|2|111111111|1|42222","30|2|224222122|1|43432","44|1|111111111|1|11223","41|3|212112111|1|22211","46|2|221112232|1|21212","40|1|221212122|1|20201","44|2|212112111|1|44444","33|2|211211111|1|44444","41|2|444222222|1|12113","53|1|111111111|1|55554","46|1|111112121|1|32223","32|1|432122121|1|32224","46|1|111112122|1|32234","40|2|222221121|1|21212","42|2|244422245|4|22241","36|1|121111112|1|41412","36|2|411122111|1|22232","40|1|121211111|1|44434","35|2|111111111|1|44444","40|1|111111111|1|22221","41|1|211121111|1|12031","34|1|222222222|2|43424","35|2|222222122|1|53442","52|2|222222222|3|44445","38|2|122221121|3|21223","23|2|222124341|3|11111","43|2|212111111|2|21000","57|2|545545251|5|00001","54|2|344424322|3|00002","42|2|111111111|1|33435","33|2|122123222|3|22222","47|1|122114132|1|20201","53|2|222222222|3|44433","31|1|222222121|2|42322","57|2|111111111|1|43454","49|2|222112121|1|21222","63|2|222211232|2|11211","45|2|222212221|1|11311","59|2|222112121|2|11001","58|2|422222221|3|11103","51|2|111212111|1|42433","42|2|222122222|2|00001","25|2|512122142|2|12122","54|2|122213122|1|21424","55|2|224122221|5|10111","62|2|111111111|1|44444","37|2|411111111|1|22211","29|2|121211122|2|43334","33|1|222111211|1|33212","54|2|111122121|1|44444","70|2|222211111|1|44444","40|1|212111111|1|22224","33|2|112122112|1|33334","38|1|111153122|1|22214","38|2|111111111|1|43324","41|2|111111111|1|33444","33|1|351542222|3|12011","43|2|533221221|3|21223","50|2|221212111|3|44443","55|2|112111121|1|22222","27|2|512111142|4|22221","61|2|212121111|1|11104","53|1|221111111|1|55555","30|1|111111111|1|32224","45|2|121111111|1|22221","40|2|111112112|1|43234","29|1|111212112|1|43323","30|2|222222123|2|11212","55|2|221122121|1|31102","27|2|211121121|1|43422","26|2|211111111|1|33323","31|2|211112111|1|33432","38|2|212212121|2|44333","35|2|111111111|1|22111","68|1|111112121|1|33223","39|1|211111111|1|33342","31|2|222112211|1|22312","26|1|111111111|1|43444","46|2|212112121|2|41343","48|1|222122121|1|55545","33|2|322212233|3|11102","58|2|111132112|1|43333","39|2|121112111|1|43322"]};
+
+  var ABOUT = '<p><strong>WHO-5 labbūtības indekss.</strong> Pieci apgalvojumi par pēdējām divām nedēļām, katrs no 0 līdz 5. Summu reizina ar 4, iegūstot rādītāju no 0 līdz 100. Rādītājs 50 vai mazāk norāda uz zemu labbūtību, rādītājs 28 vai mazāk ir saistīts ar paaugstinātu depresijas iespējamību, un šādos gadījumos ieteicams padziļināts izvērtējums (Topp et al., 2015).</p>'+
+    '<p><strong>NAQ-R.</strong> Negatīvās izturēšanās darbā aptaujas deviņu apgalvojumu versija, katrs no 1 (nekad) līdz 5 (katru dienu), kopsumma no 9 līdz 45. Notelaers un Einarsen (2013) robežvērtības 33 un 45 ir noteiktas 22 apgalvojumu versijai. Šeit tās ir lineāri pārrēķinātas deviņu apgalvojumu skalai, tāpēc robežas ir 14 un 19. Tas ir tuvinājums, nevis atsevišķi validētas robežvērtības.</p>'+
+    '<p><strong>Izturēšanās veidi.</strong> Apgalvojumi sagrupēti pēc satura atbilstoši NAQ-R faktoru struktūrai (Einarsen et al., 2009): ar darbu saistīta izturēšanās (1., 6., 8. jautājums), ar personu saistīta izturēšanās (2., 4., 9.), sociālā atstumšana (3., 7.) un iebiedējoša uzvedība (5.). Šis grupējums latviešu datos nav atsevišķi pārbaudīts, un iebiedējošo uzvedību mēra tikai viens apgalvojums.</p>'+
+    '<p><strong>Salīdzinājuma dati.</strong> Mākonis, mediānas un procentiles aprēķinātas no sintētiskiem datiem, kas ģenerēti no pētījuma «Darba vides pieredze un darbinieku labbūtība Latvijā» datiem tā, lai saglabātos mainīgo sadalījumi un savstarpējās sakarības. Neviens punkts neatbilst reālam respondentam (Nowok et al., 2016). Pētījuma dalībnieki bija vismaz 18 gadus veci darbinieki, kuri savā darbavietā strādāja vismaz sešus mēnešus. Grupās, kurās ir mazāk nekā 50 cilvēku, salīdzinājums netiek rādīts.</p>';
+
+  var WHO_OPTS = [{v:5,l:"Visu laiku"},{v:4,l:"Lielāko daļu laika"},{v:3,l:"Vairāk nekā pusi laika"},{v:2,l:"Mazāk nekā pusi laika"},{v:1,l:"Dažreiz"},{v:0,l:"Nekad"}];
+  var NAQ_OPTS = [{v:1,l:"Nekad"},{v:2,l:"Ik pa laikam"},{v:3,l:"Reizi mēnesī"},{v:4,l:"Reizi nedēļā"},{v:5,l:"Katru dienu"}];
+  var SELF_OPTS = [{v:1,l:"Nē"},{v:2,l:"Jā, bet tikai reti"},{v:3,l:"Jā, laiku pa laikam"},{v:4,l:"Jā, vairākas reizes nedēļā"},{v:5,l:"Jā, gandrīz katru dienu"}];
+  var G_OPTS = [{v:1,l:"Vīrietis"},{v:2,l:"Sieviete"},{v:3,l:"Cits"},{v:4,l:"Nevēlos atbildēt"}];
+
+  var WHO_ITEMS = [
+    "Es esmu juties/usies priecīgs/a un labā noskaņojumā",
+    "Es esmu juties/usies mierīgs/a un atpūties/usies",
+    "Es esmu juties aktīvs/a un enerģisks/a",
+    "Es modos možs/a un atpūties/usies",
+    "Mana ikdiena bija pilna ar lietām, kas mani interesē"
+  ];
+  var NAQ_ITEMS = [
+    "Kāds noklusē informāciju, un tas ietekmē Jūsu sniegumu",
+    "Par Jums tiek izplatītas tenkas un baumas",
+    "Jūs tiekat ignorēts/a vai atstumts",
+    "Tiek izteiktas aizvainojošas vai aizskarošas piezīmes par Jūsu personību, uzskatiem vai privāto dzīvi",
+    "Uz Jums kliedz vai esat dusmu uzliesmojumu mērķis",
+    "Jums atkārtoti tiek atgādināts par Jūsu pieļautajām kļūdām vai nepilnībām",
+    "Kad kādam tuvojaties, Jūs tiekat ignorēts/a vai sastopaties ar naidīgu attieksmi",
+    "Jūsu darbs un pūles pastāvīgi tiek kritizētas",
+    "Jūs tiekat pakļauts pārmērīgai ķircināšanai un sarkasmam"
+  ];
+  var SELF_DEF = "Mobings ir situācija, kurā persona atkārtoti un ilgstoši (ne tikai vienu vai divas reizes) piedzīvo negatīvu rīcību no citas personas vai personu grupas, un šajā situācijā ir grūti sevi aizstāvēt. Mobings NAV vienreizēji konflikti, pamatota konstruktīva kritika, normāla darba vadība vai disciplinārsodu procedūras. Tas ir sistemātisks process, kas notiek regulāri un rada būtisku kaitējumu Jūsu labklājībai vai darba spējām.";
+  var SELF_Q = "Vai esat pieredzējis/usi pret sevi vērstu mobingu darba vietā pēdējo sešu mēnešu laikā?";
+
+  var TYPES = [
+    {k:"darbs", n:"Ar darbu saistīta izturēšanās", items:[0,5,7], d:"Informācijas noklusēšana, atgādinājumi par kļūdām, pastāvīga kritika."},
+    {k:"pers",  n:"Ar personu saistīta izturēšanās", items:[1,3,8], d:"Tenkas, aizskarošas piezīmes, ķircināšana un sarkasms."},
+    {k:"izol",  n:"Sociālā atstumšana", items:[2,6], d:"Ignorēšana, atstumšana, naidīga attieksme."},
+    {k:"iebied",n:"Iebiedējoša uzvedība", items:[4], d:"Kliegšana un dusmu uzliesmojumi. Mēra viens apgalvojums."}
+  ];
+  var AGE_LAB = ["18 līdz 29 gadus veci","30 līdz 44 gadus veci","45 līdz 59 gadus veci","60 gadus veci un vecāki"];
+  var MIN_N = 50, TOTAL = 17;
+
+  var $ = function(id){return document.getElementById(id);};
+  var A, lastRes = null, group = "all", mode = "points";
+  function resetAnswers(){ A = {age:null, gender:null, who:[null,null,null,null,null], naq:[null,null,null,null,null,null,null,null,null], self:null}; }
+  resetAnswers();
+
+  document.querySelectorAll(".about-text").forEach(function(el){ el.innerHTML = ABOUT; });
+
+  // ---------- Aptaujas veidošana ----------
+  function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;"); }
+  function rail(name, opts, ends){
+    var n = opts.length, pad = 50/n;
+    var h = '<div class="gauge"><div class="stops" role="radiogroup" style="grid-template-columns:repeat('+n+',1fr)">'+
+      '<div class="rail" style="left:'+pad+'%;right:'+pad+'%"></div>';
+    opts.forEach(function(o){
+      h += '<label class="stop"><input type="radio" name="'+name+'" value="'+o.v+'" aria-label="'+esc(o.l)+'"><span class="num">'+o.v+'</span><span class="dot"></span></label>';
+    });
+    return h + '</div><div class="ends"><span>'+ends[0]+'</span><span>'+ends[1]+'</span></div></div>';
+  }
+  function scalemini(opts){ return '<div class="scalemini">'+opts.map(function(o){return '<span><b>'+o.v+'</b>'+o.l+'</span>';}).join("")+'</div>'; }
+  function picks(name, opts){
+    return opts.map(function(o){ return '<label class="pick"><input type="radio" name="'+name+'" value="'+o.v+'"><span class="dot"></span><span>'+o.l+'</span></label>'; }).join("");
+  }
+  function buildSurvey(){
+    $("g-picks").innerHTML = picks("gender", G_OPTS);
+    var h = '<h2>Labbūtība</h2><p class="hint">Lūdzu, atzīmējiet katram apgalvojumam atbildes variantu, kas lielā mērā atbilst tam, kā esat juties/usies pēdējo divu nedēļu laikā.</p>'+scalemini(WHO_OPTS);
+    WHO_ITEMS.forEach(function(t,i){
+      h += '<div class="item" id="it-who'+i+'"><div class="q"><span class="n">'+(i+11)+'</span><span class="stmt">'+t+'</span></div>'+rail("who"+i, WHO_OPTS, ["Visu laiku","Nekad"])+'</div>';
+    });
+    $("b-who").innerHTML = h;
+    h = '<h2>Negatīva izturēšanās darbā</h2><p class="hint">Turpmāk minētā rīcība darbavietā bieži tiek uzskatīta par negatīvas rīcības piemēriem. Cik bieži pēdējo sešu mēnešu laikā esat saskāries/usies ar šādām negatīvām darbībām darbā?</p><p class="hint">Lūdzu, iezīmējiet to atbildi, kas vislabāk atbilst Jūsu pieredzei pēdējo sešu mēnešu laikā.</p>'+scalemini(NAQ_OPTS);
+    NAQ_ITEMS.forEach(function(t,i){
+      h += '<div class="item" id="it-naq'+i+'"><div class="q"><span class="n">'+(i+1)+'</span><span class="stmt">'+t+'</span></div>'+rail("naq"+i, NAQ_OPTS, ["Nekad","Katru dienu"])+'</div>';
+    });
+    $("b-naq").innerHTML = h;
+    $("b-self").innerHTML = '<h2>Mobinga pašnovērtējums</h2><p class="hint">'+SELF_DEF+'</p>'+
+      '<div class="item" id="it-self"><div class="q"><span class="n">10</span><span class="stmt">'+SELF_Q+'</span></div><div class="vlist" role="radiogroup">'+picks("self", SELF_OPTS)+'</div></div>';
+  }
+  buildSurvey();
+
+  function answered(){
+    var n = 0;
+    if(A.age) n++; if(A.gender) n++; if(A.self) n++;
+    A.who.forEach(function(v){ if(v!==null) n++; });
+    A.naq.forEach(function(v){ if(v!==null) n++; });
+    return n;
+  }
+  function prog(){ var n = answered(); $("ct").textContent = n+" / "+TOTAL+" atbildēts"; $("mi").style.width = (100*n/TOTAL)+"%"; }
+
+  $("survey").addEventListener("change", function(e){
+    var t = e.target; if(!t || t.type!=="radio") return;
+    var v = parseInt(t.value,10), nm = t.name;
+    if(nm==="gender"){ A.gender = v; $("f-gender").classList.remove("miss"); }
+    else if(nm==="self"){ A.self = v; $("it-self").classList.remove("miss"); }
+    else if(nm.indexOf("who")===0){ A.who[+nm.slice(3)] = v; $("it-"+nm).classList.remove("miss"); }
+    else if(nm.indexOf("naq")===0){ A.naq[+nm.slice(3)] = v; $("it-"+nm).classList.remove("miss"); }
+    $("warnmsg").textContent = ""; prog();
+  });
+  $("age").addEventListener("input", function(){
+    var a = parseInt(this.value,10); A.age = (a>=18 && a<=99) ? a : null;
+    if(A.age) $("f-age").classList.remove("miss"); prog();
+  });
+
+  $("submit").addEventListener("click", function(){
+    var miss = [];
+    if(!A.age) miss.push("f-age");
+    if(!A.gender) miss.push("f-gender");
+    A.who.forEach(function(v,i){ if(v===null) miss.push("it-who"+i); });
+    A.naq.forEach(function(v,i){ if(v===null) miss.push("it-naq"+i); });
+    if(!A.self) miss.push("it-self");
+    if(miss.length){
+      miss.forEach(function(id){ $(id).classList.add("miss"); });
+      $("warnmsg").textContent = (!A.age && $("age").value) ? "Vecumam jābūt no 18 līdz 99 gadiem. " : "";
+      $("warnmsg").textContent += "Lūdzu, atbildi uz visiem jautājumiem. Trūkst atbilžu: "+miss.length+".";
+      $(miss[0]).scrollIntoView({behavior:"smooth", block:"center"});
+      return;
+    }
+    finish();
+  });
+
+  function view(name){
+    $("intro").style.display = name==="intro" ? "block" : "none";
+    document.querySelector("header.top").style.display = name==="intro" ? "block" : "none";
+    $("bar").style.display = name==="survey" ? "block" : "none";
+    $("survey").style.display = name==="survey" ? "block" : "none";
+    $("results").style.display = name==="results" ? "block" : "none";
+    window.scrollTo(0,0);
+  }
+  $("start").addEventListener("click", function(){ gc("mobings-who5/sakts"); view("survey"); });
+
+  // ---------- Salīdzinājuma dati ----------
+  var REFROWS = null;
+  function parseRef(){
+    if(REFROWS !== null) return REFROWS;
+    REFROWS = [];
+    if(!REF || !REF.rows) return REFROWS;
+    REF.rows.forEach(function(r){
+      var p = r.split("|"); if(p.length!==5) return;
+      REFROWS.push(enrich({age:+p[0], g:+p[1], q:p[2].split("").map(Number), s:+p[3], w:p[4].split("").map(Number)}));
+    });
+    return REFROWS;
+  }
+  function sum(a){ var s=0; for(var i=0;i<a.length;i++) s+=a[i]; return s; }
+  function enrich(o){
+    o.who = sum(o.w)*4; o.naq = sum(o.q); o.t = {};
+    TYPES.forEach(function(T){ o.t[T.k] = sum(T.items.map(function(i){return o.q[i];}))/T.items.length; });
+    return o;
+  }
+  function ageGroup(a){ return a < 30 ? 0 : a < 45 ? 1 : a < 60 ? 2 : 3; }
+  function subset(g){
+    var me = lastRes;
+    return parseRef().filter(function(r){
+      var okG = r.g === me.g, okA = ageGroup(r.age) === ageGroup(me.age);
+      return g==="gender" ? okG : g==="age" ? okA : g==="both" ? (okG && okA) : true;
+    });
+  }
+  function groupName(){
+    var r = lastRes, sx = r.g===1 ? "vīrieši" : "sievietes", ag = AGE_LAB[ageGroup(r.age)];
+    return {all:"visi dalībnieki", gender:sx, age:ag, both:sx+", "+ag}[group];
+  }
+  function pctPos(arr, v){ var lo=0, eq=0; for(var i=0;i<arr.length;i++){ if(arr[i]<v) lo++; else if(arr[i]===v) eq++; } return {lo:lo/arr.length*100, eq:eq/arr.length*100}; }
+  function quant(arr,q){ var s=arr.slice().sort(function(a,b){return a-b;}), h=(s.length-1)*q, lo=Math.floor(h); return s[lo]+(s[Math.min(lo+1,s.length-1)]-s[lo])*(h-lo); }
+  function fmt(x,d){ return x.toFixed(d||0).replace(".", ","); }
+  function nfmt(n){ return n.toLocaleString("lv-LV"); }
+  function mean(a){ return sum(a)/a.length; }
+  function sd(a){ var m=mean(a), s=0; for(var i=0;i<a.length;i++) s+=(a[i]-m)*(a[i]-m); return Math.sqrt(s/(a.length-1)); }
+  function corr(a,b){ var ma=mean(a), mb=mean(b), s=0, sa=0, sb=0; for(var i=0;i<a.length;i++){ s+=(a[i]-ma)*(b[i]-mb); sa+=(a[i]-ma)*(a[i]-ma); sb+=(b[i]-mb)*(b[i]-mb); } return s/Math.sqrt(sa*sb); }
+
+  // ---------- Rezultāti ----------
+  function finish(){
+    lastRes = enrich({age:A.age, g:A.gender, w:A.who.slice(), q:A.naq.slice(), s:A.self});
+    group = "all"; mode = "points";
+    gc("mobings-who5/pabeigts");
+    view("results");
+    renderAll();
+  }
+
+  function renderAll(){
+    var has = parseRef().length > 0, ref = has ? subset(group) : [];
+    if(has && ref.length < MIN_N){ group = "all"; ref = subset("all"); }
+    renderGroupUI(has, ref);
+    renderMain(ref);
+    renderHelp();
+    renderCloudUI(has);
+    renderTypes(ref);
+    renderSelf(ref);
+    requestAnimationFrame(drawCloud);
+  }
+
+  function renderGroupUI(has, ref){
+    var g = $("grp");
+    if(!has){ g.innerHTML = ""; g.style.display = "none"; $("grpmeta").textContent = "Salīdzinājuma dati šajā failā vēl nav ievietoti."; return; }
+    g.style.display = "";
+    var mf = lastRes.g===1 || lastRes.g===2;
+    g.innerHTML = "";
+    [{k:"all",l:"Visi dalībnieki"},{k:"gender",l:"Mans dzimums",need:mf},{k:"age",l:"Mana vecuma grupa"},{k:"both",l:"Dzimums un vecums",need:mf}].forEach(function(o){
+      var b = document.createElement("button"); b.type = "button"; b.textContent = o.l;
+      var ok = o.need!==false && subset(o.k).length >= MIN_N;
+      b.disabled = !ok;
+      if(!ok) b.title = o.need===false ? "Pieejams, ja norādīts dzimums vīrietis vai sieviete" : "Grupā ir mazāk nekā "+MIN_N+" cilvēku";
+      b.setAttribute("aria-pressed", group===o.k ? "true" : "false");
+      b.addEventListener("click", function(){ group = o.k; renderAll(); });
+      g.appendChild(b);
+    });
+    $("grpmeta").textContent = "Salīdzinājuma grupa: "+groupName()+", n = "+nfmt(ref.length)+" (sintētiskie dati)";
+  }
+
+  function axis(min, max, opt){
+    function L(x){ return ((x-min)/(max-min)*100)+"%"; }
+    var h = '<div class="axis"><div class="track"></div>';
+    (opt.ticks||[]).forEach(function(t){ h += '<div class="tick" style="left:'+L(t)+'"></div>'; });
+    if(opt.q1 != null) h += '<div class="iqr" style="left:'+L(opt.q1)+';width:calc('+((opt.q3-opt.q1)/(max-min)*100)+'% + 6px)"></div>';
+    if(opt.med != null) h += '<div class="med" style="left:'+L(opt.med)+'"></div>';
+    h += '<div class="mk" style="left:'+L(opt.val)+'"></div></div><div class="scale">';
+    opt.labels.forEach(function(t){ h += '<span style="left:'+L(t)+'">'+t+'</span>'; });
+    return h + '</div>';
+  }
+  function posText(arr, v){
+    if(!arr.length) return "";
+    var p = pctPos(arr, v);
+    return " Salīdzinājuma grupā "+fmt(p.lo)+"% dalībnieku rādītājs ir zemāks nekā Tavējais, "+fmt(p.eq)+"% dalībnieku tāds pats.";
+  }
+  function renderMain(ref){
+    var r = lastRes;
+    var wArr = ref.map(function(o){return o.who;}), nArr = ref.map(function(o){return o.naq;});
+    var wb = r.who <= 28 ? "ļoti zema labbūtība" : r.who <= 50 ? "zema labbūtība" : "virs zemas labbūtības robežas";
+    $("c-who").innerHTML = '<div class="hd"><span class="fname">Labbūtība (WHO-5)</span><span class="read"><b>'+r.who+'</b> no 100</span></div>'+
+      axis(0,100,{val:r.who, ticks:[28,50], med: wArr.length ? quant(wArr,.5) : null, q1: wArr.length ? quant(wArr,.25) : null, q3: wArr.length ? quant(wArr,.75) : null, labels:[0,28,50,100]})+
+      '<p class="band">'+wb+'</p><p class="interp">Pašsajūta pēdējo divu nedēļu laikā. Robežas 50 un 28 iezīmē zemu un ļoti zemu labbūtību.'+posText(wArr, r.who)+'</p>';
+    var nb = r.naq <= 13 ? "negatīva izturēšanās reti vai nemaz" : r.naq <= 18 ? "negatīva izturēšanās laiku pa laikam" : "bieža negatīva izturēšanās";
+    var nd = r.naq >= 19 ? "Rādītājs sasniedz robežu, ko pētījumos izmanto smaga mobinga noteikšanai."
+      : r.naq >= 14 ? "Rādītājs sasniedz robežu, ko pētījumos izmanto, lai noteiktu mobingu laiku pa laikam."
+      : "Rādītājs ir zem robežām, ko pētījumos izmanto mobinga noteikšanai.";
+    $("c-naq").innerHTML = '<div class="hd"><span class="fname">Negatīva izturēšanās darbā (NAQ-R)</span><span class="read"><b>'+r.naq+'</b> no 45</span></div>'+
+      axis(9,45,{val:r.naq, ticks:[14,19], med: nArr.length ? quant(nArr,.5) : null, q1: nArr.length ? quant(nArr,.25) : null, q3: nArr.length ? quant(nArr,.75) : null, labels:[9,14,19,45]})+
+      '<p class="band">'+nb+'</p><p class="interp">'+nd+posText(nArr, r.naq)+'</p>';
+  }
+
+  function renderHelp(){
+    var r = lastRes, el = $("helpbox");
+    if(!(r.who <= 50 || r.naq >= 19 || r.s >= 3)){ el.innerHTML = ""; return; }
+    var lead = r.who <= 28
+      ? "Tavs labbūtības rādītājs ir ļoti zems. Šāds rezultāts nav diagnoze, taču tas ir pietiekams iemesls par savu pašsajūtu parunāt ar ģimenes ārstu, psihologu vai psihoterapeitu."
+      : "Ja Tavi rezultāti sakrīt ar to, kā jūties, var palīdzēt saruna ar kādu, kam uzticies, ar psihologu vai ģimenes ārstu.";
+    el.innerHTML = '<div class="warnbox"><p style="margin:0 0 10px"><b>Ja šie rezultāti Tevi satrauc.</b> '+lead+'</p>'+
+      '<p style="margin:0">Valsts apmaksātais krīzes un emocionālā atbalsta tālrunis <b>116123</b> darbojas visu diennakti. Akūtās situācijās zvani <b>112</b>. Ja darbavietā ir pieejams darbinieku atbalsta pakalpojums vai arodveselības speciālists, vari vērsties arī tur. Par negatīvu izturēšanos darbā var konsultēties ar Valsts darba inspekciju. Ieteikumi, ko darīt, ja piedzīvo mobingu, ir lapā <a href="mobings-ko-darit.html">«Mobings darbā: kā to atpazīt un ko darīt»</a>.</p></div>';
+  }
+
+  // ---------- Mākonis ----------
+  function renderCloudUI(has){
+    if(!has){ $("cloud-ui").innerHTML = '<p class="cap">Salīdzinājuma dati šajā failā vēl nav ievietoti. Tos ievieto R skripts 15_synthetic_reference_tool_v04.R.</p>'; return; }
+    var m = $("mode"); m.innerHTML = "";
+    [{k:"points",l:"Punkti"},{k:"density",l:"Blīvums"}].forEach(function(o){
+      var b = document.createElement("button"); b.type = "button"; b.textContent = o.l;
+      b.setAttribute("aria-pressed", mode===o.k ? "true" : "false");
+      b.addEventListener("click", function(){ mode = o.k; renderCloudUI(true); drawCloud(); });
+      m.appendChild(b);
+    });
+    $("dens-legend").hidden = mode !== "density";
+  }
+  function rng(seed){ return function(){ seed = (seed*1664525 + 1013904223) % 4294967296; return seed/4294967296; }; }
+  function ramp(t){
+    var st=[[0,255,255,255],[0.15,236,240,246],[0.35,201,211,225],[0.65,111,135,168],[1,24,59,107]];
+    for(var i=1;i<st.length;i++){ if(t<=st[i][0]){ var a=st[i-1], b=st[i], f=(t-a[0])/(b[0]-a[0]);
+      return [Math.round(a[1]+(b[1]-a[1])*f),Math.round(a[2]+(b[2]-a[2])*f),Math.round(a[3]+(b[3]-a[3])*f)]; } }
+    return [24,59,107];
+  }
+  function roundRect(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+
+  function drawCloud(){
+    if(!parseRef().length || !lastRes) return;
+    var cv = $("cloud"); if(!cv || !cv.offsetParent) return;
+    var ref = subset(group);
+    var W = cv.clientWidth || 420, H = Math.round(W*0.95), dpr = window.devicePixelRatio || 1;
+    cv.width = Math.round(W*dpr); cv.height = Math.round(H*dpr); cv.style.height = H+"px";
+    var ctx = cv.getContext("2d"); ctx.setTransform(dpr,0,0,dpr,0,0); ctx.clearRect(0,0,W,H);
+    var mL=W*0.12, mR=W*0.04, mT=W*0.04, mB=W*0.13, pw=W-mL-mR, ph=H-mT-mB;
+    var x0=8, x1=46, y0=-2, y1=102;
+    function X(v){ return mL+(v-x0)/(x1-x0)*pw; }
+    function Y(v){ return mT+(1-(v-y0)/(y1-y0))*ph; }
+    var body = "Calibri, Carlito, 'Segoe UI', Arial, sans-serif", mono = body;
+
+    ctx.save(); ctx.beginPath(); ctx.rect(mL,mT,pw,ph); ctx.clip();
+    if(mode === "density"){
+      var G=70, off=document.createElement("canvas"); off.width=G; off.height=G;
+      var octx=off.getContext("2d"), img=octx.createImageData(G,G), vals=new Float64Array(G*G), maxv=0;
+      var xs=ref.map(function(r){return r.naq;}), ys=ref.map(function(r){return r.who;}), n=xs.length, f=Math.pow(n,-1/6);
+      var hx=Math.max(sd(xs)*f,1.2), hy=Math.max(sd(ys)*f,5);
+      for(var yi=0;yi<G;yi++){ for(var xi=0;xi<G;xi++){
+        var gx=x0+(xi+0.5)/G*(x1-x0), gy=y1-(yi+0.5)/G*(y1-y0), v=0;
+        for(var k=0;k<n;k++){ var dx=(gx-xs[k])/hx, dy=(gy-ys[k])/hy; v+=Math.exp(-0.5*(dx*dx+dy*dy)); }
+        vals[yi*G+xi]=v; if(v>maxv) maxv=v;
+      }}
+      for(var j=0;j<G*G;j++){ var c=ramp(Math.pow(vals[j]/maxv,0.6)); img.data[j*4]=c[0]; img.data[j*4+1]=c[1]; img.data[j*4+2]=c[2]; img.data[j*4+3]=255; }
+      octx.putImageData(img,0,0); ctx.imageSmoothingEnabled=true; ctx.drawImage(off,mL,mT,pw,ph);
+    } else {
+      var rnd = rng(12345), rad = W < 380 ? 1.6 : 2;
+      ctx.fillStyle = "rgba(24,59,107,0.25)";
+      ref.forEach(function(r){ ctx.beginPath(); ctx.arc(X(r.naq+(rnd()-0.5)*0.8), Y(r.who+(rnd()-0.5)*3.2), rad, 0, Math.PI*2); ctx.fill(); });
+    }
+    ctx.restore();
+
+    ctx.strokeStyle="#D9DCE1"; ctx.lineWidth=1; ctx.strokeRect(mL+0.5,mT+0.5,pw,ph);
+    ctx.strokeStyle="rgba(91,96,104,0.55)"; ctx.setLineDash([3,4]);
+    [13.5,18.5].forEach(function(v){ ctx.beginPath(); ctx.moveTo(X(v),mT); ctx.lineTo(X(v),mT+ph); ctx.stroke(); });
+    [28,50].forEach(function(v){ ctx.beginPath(); ctx.moveTo(mL,Y(v)); ctx.lineTo(mL+pw,Y(v)); ctx.stroke(); });
+    ctx.setLineDash([]);
+    ctx.fillStyle="#5B6068"; ctx.font="11px "+mono; ctx.textAlign="center"; ctx.textBaseline="top";
+    [9,14,19,27,36,45].forEach(function(v){ ctx.fillText(String(v), X(v), mT+ph+6); });
+    ctx.textAlign="right"; ctx.textBaseline="middle";
+    [0,28,50,75,100].forEach(function(v){ ctx.fillText(String(v), mL-6, Y(v)); });
+    ctx.fillStyle="#0E0F12"; ctx.font="600 12.5px "+body; ctx.textAlign="center"; ctx.textBaseline="alphabetic";
+    ctx.fillText("Negatīva izturēšanās darbā (NAQ-R, 9 līdz 45)", mL+pw/2, H-4);
+    ctx.save(); ctx.translate(12, mT+ph/2); ctx.rotate(-Math.PI/2); ctx.textAlign="center"; ctx.textBaseline="top";
+    ctx.fillText("Labbūtība (WHO-5, 0 līdz 100)", 0, 0); ctx.restore();
+
+    var px=X(lastRes.naq), py=Y(lastRes.who);
+    ctx.beginPath(); ctx.arc(px,py,7,0,Math.PI*2); ctx.fillStyle="#0E0F12"; ctx.fill(); ctx.lineWidth=3; ctx.strokeStyle="#fff"; ctx.stroke();
+    ctx.font="600 12px "+body; var t="Tu", tw=ctx.measureText(t).width, padx=6, bh=18, below=(py-12-bh<mT);
+    var by=below?py+12:py-12-bh, bx=px-tw/2-padx;
+    if(bx<2) bx=2; if(bx+tw+padx*2>W-2) bx=W-2-(tw+padx*2);
+    ctx.fillStyle="#0E0F12"; roundRect(ctx,bx,by,tw+padx*2,bh,4); ctx.fill();
+    ctx.fillStyle="#fff"; ctx.textAlign="left"; ctx.textBaseline="middle"; ctx.fillText(t,bx+padx,by+bh/2+0.5);
+
+    var rr = corr(ref.map(function(o){return o.naq;}), ref.map(function(o){return o.who;}));
+    $("plotmeta").textContent = groupName()+", n = "+nfmt(ref.length)+", r = "+fmt(rr,2);
+    $("cloud-cap").textContent = (mode === "density"
+      ? "Krāsas intensitāte rāda, cik daudz sintētisko ierakstu atrodas attiecīgajā diagrammas vietā. "
+      : "Katrs punkts ir viens sintētisks ieraksts, kas atveido pētījuma dalībnieku sadalījumu. Tā kā atbildes ir veselos skaitļos, punkti ir nedaudz izkliedēti, lai tie nepārklātos. ")
+      + "Vertikālās punktētās līnijas iezīmē negatīvās izturēšanās robežas 14 un 19, horizontālās labbūtības robežas 28 un 50. Kopumā augstāks negatīvās izturēšanās rādītājs ir saistīts ar zemāku labbūtību, taču individuālās atšķirības ir lielas.";
+  }
+
+  // ---------- Izturēšanās veidi ----------
+  function renderTypes(ref){
+    var r = lastRes;
+    $("types").innerHTML = TYPES.map(function(T){
+      var v = r.t[T.k], opt = {val:v, labels:[1,2,3,4,5]}, extra = "";
+      if(ref.length){
+        var arr = ref.map(function(o){return o.t[T.k];}), p = pctPos(arr, v);
+        opt.med = quant(arr,.5); opt.q1 = quant(arr,.25); opt.q3 = quant(arr,.75);
+        extra = " Dalībnieku mediāna: "+fmt(opt.med,1)+". " + (v === 1
+          ? "Tāpat kā "+fmt(p.eq)+"% dalībnieku, Tu šādu izturēšanos neesi piedzīvojis/usi."
+          : "Tavs rādītājs ir augstāks nekā "+fmt(p.lo)+"% dalībnieku un tāds pats kā "+fmt(p.eq)+"%.");
+      }
+      return '<div style="padding:16px 0 4px"><div class="hd" style="display:flex;align-items:baseline;gap:10px"><span style="font-family:var(--disp);font-weight:600;font-size:1.05rem">'+T.n+'</span>'+
+        '<span class="read" style="margin-left:auto;font-family:var(--mono);font-size:.85rem;color:var(--ink-muted)"><b style="color:var(--ink);font-weight:500">'+fmt(v,1)+'</b> no 5</span></div>'+
+        '<p class="sub">Apgalvojumi '+T.items.map(function(i){return (i+1)+".";}).join(", ")+'</p>'+
+        axis(1,5,opt)+'<p class="interp" style="font-size:.95rem">'+T.d+extra+'</p></div>';
+    }).join("");
+  }
+
+  // ---------- Pašnovērtējums ----------
+  function renderSelf(ref){
+    var r = lastRes, el = $("selfdist");
+    if(!ref.length){ el.innerHTML = '<p class="interp">Tava atbilde: '+SELF_OPTS[r.s-1].l+'.</p>'; return; }
+    $("self-sub").textContent = "Kā uz to pašu jautājumu atbildēja pētījuma dalībnieki ("+groupName()+", n = "+nfmt(ref.length)+"). Tava atbilde izcelta.";
+    var counts=[0,0,0,0,0]; ref.forEach(function(o){ counts[o.s-1]++; });
+    el.innerHTML = SELF_OPTS.map(function(o,i){
+      var p = counts[i]/ref.length*100;
+      return '<div class="srow'+(r.s===o.v?' me':'')+'"><span>'+o.l+(r.s===o.v?' (Tava atbilde)':'')+'</span>'+
+        '<span class="sbar"><span style="width:'+p+'%"></span></span><span class="pct">'+fmt(p)+'%</span></div>';
+    }).join("");
+  }
+
+  // ---------- Notikumi ----------
+  $("restart").addEventListener("click", function(){
+    resetAnswers(); lastRes = null;
+    document.querySelectorAll("#survey input[type=radio]").forEach(function(x){ x.checked = false; });
+    $("age").value = ""; document.querySelectorAll(".miss").forEach(function(x){ x.classList.remove("miss"); });
+    prog(); view("intro");
+  });
+  $("print").addEventListener("click", function(){ window.print(); });
+  var rt = null;
+  window.addEventListener("resize", function(){ if($("results").style.display!=="block") return; clearTimeout(rt); rt = setTimeout(drawCloud,120); });
+})();
+</script>
+<script data-goatcounter="https://slowscience.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+</body>
+</html>
