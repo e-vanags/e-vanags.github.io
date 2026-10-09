@@ -81,11 +81,14 @@
   .item .stmt{font-size:1.15rem;line-height:1.4}
   .gauge{position:relative;max-width:440px;margin-left:36px}
   @media (max-width:520px){.gauge{margin-left:0}}
-  .gauge .rail{position:absolute;top:calc(100% - 13.5px);height:2px;background:var(--rule);z-index:0}
+  .gauge .rail{position:absolute;top:41.5px;height:2px;background:var(--rule);z-index:0}
   .gauge .stops{position:relative;display:grid;z-index:1}
-  .gauge .stop{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:9px;padding:6px 0 4px;cursor:pointer;min-height:44px;justify-content:center}
+  .gauge .stop{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:9px;padding:6px 2px 4px;cursor:pointer;min-height:44px;justify-content:flex-start}
   .gauge .stop input{position:absolute;inset:0;opacity:0;cursor:pointer;margin:0}
-  .gauge .stop .num{font-size:.85rem;color:var(--ink-muted);font-family:var(--mono)}
+  .gauge .stop .num{font-size:.85rem;line-height:20px;height:20px;color:var(--ink-muted);font-family:var(--mono)}
+  .gauge .stop .olab{font-size:.75rem;line-height:1.25;color:var(--ink-muted);text-align:center;max-width:11ch;margin-top:-2px}
+  .gauge .stop input:checked ~ .olab{color:var(--accent);font-weight:600}
+  @media (max-width:520px){.gauge .stop .olab{font-size:.7rem;max-width:8ch;word-break:normal}}
   .gauge .stop .dot{width:15px;height:15px;border-radius:50%;background:var(--paper);border:2px solid var(--ink-muted);transition:all .12s ease}
   .gauge .stop:hover .dot{border-color:var(--ink)}
   .gauge .stop input:checked ~ .dot{background:var(--accent);border-color:var(--accent);box-shadow:0 0 0 4px #E3E9F2}
@@ -191,7 +194,7 @@
   <details class="about"><summary>Par mērījumu un salīdzinājuma datiem</summary><div class="inner about-text"></div></details>
   <div class="warnbox">Tikai izglītojošiem un pašrefleksijas nolūkiem. Šis nav diagnostisks instruments. Jautājumi skar emocionālo pašsajūtu un iespējami sāpīgu pieredzi darbā, aptauju vari pārtraukt jebkurā brīdī.</div>
   <button class="btn" id="start">Sākt aptauju</button>
-  <p class="src">Instrumenti: WHO-5 labbūtības indekss (Topp et al., 2015) un NAQ-R deviņu apgalvojumu versija (Einarsen et al., 2009). Salīdzinājuma dati: pētījums «Darba vides pieredze un darbinieku labbūtība Latvijā», preregistrācija <a href="https://doi.org/10.17605/OSF.IO/BY8QM" target="_blank" rel="noopener">doi.org/10.17605/OSF.IO/BY8QM</a>. Aizpildīšana aizņem aptuveni četras minūtes.</p>
+  <p class="src">Instrumenti: WHO-5 labbūtības indekss (Topp et al., 2015) un NAQ-R deviņu apgalvojumu versija (Einarsen et al., 2009). Salīdzinājuma dati: pētījums «Darba vides pieredze un darbinieku labbūtība Latvijā», priekšreģistrācija <a href="https://doi.org/10.17605/OSF.IO/BY8QM" target="_blank" rel="noopener">doi.org/10.17605/OSF.IO/BY8QM</a>. Aizpildīšana aizņem aptuveni četras minūtes.</p>
 </div></section>
 
 <div id="bar"><div class="row"><span class="nm">Darba vide un labbūtība</span><div class="meter"><i id="mi"></i></div><span class="ct" id="ct">0 / 17 atbildēts</span></div></div>
@@ -253,7 +256,7 @@
       <li>Notelaers, G., &amp; Einarsen, S. (2013). The world turns at 33 and 45: Defining simple cutoff scores for the Negative Acts Questionnaire-Revised in a representative sample. <em>European Journal of Work and Organizational Psychology, 22</em>(6). <a href="https://doi.org/10.1080/1359432X.2012.690558" target="_blank" rel="noopener">https://doi.org/10.1080/1359432X.2012.690558</a></li>
       <li>Nowok, B., Raab, G. M., &amp; Dibben, C. (2016). synthpop: Bespoke creation of synthetic data in R. <em>Journal of Statistical Software, 74</em>(11). <a href="https://doi.org/10.18637/jss.v074.i11" target="_blank" rel="noopener">https://doi.org/10.18637/jss.v074.i11</a></li>
       <li>Topp, C. W., Østergaard, S. D., Søndergaard, S., &amp; Bech, P. (2015). The WHO-5 Well-Being Index: A systematic review of the literature. <em>Psychotherapy and Psychosomatics, 84</em>(3). <a href="https://doi.org/10.1159/000376585" target="_blank" rel="noopener">https://doi.org/10.1159/000376585</a></li>
-      <li>Vanags, E., Ābeltiņa, M., Vanaga, A., &amp; Akmentiņa Smildziņa, I. (2025). <em>Darba vides pieredze un darbinieku labbūtība Latvijā</em> [Preregistration]. OSF. <a href="https://doi.org/10.17605/OSF.IO/BY8QM" target="_blank" rel="noopener">https://doi.org/10.17605/OSF.IO/BY8QM</a></li>
+      <li>Vanags, E., Ābeltiņa, M., Vanaga, A., &amp; Akmentiņa Smildziņa, I. (2025). <em>Darba vides pieredze un darbinieku labbūtība Latvijā</em> [Priekšreģistrācija]. OSF. <a href="https://doi.org/10.17605/OSF.IO/BY8QM" target="_blank" rel="noopener">https://doi.org/10.17605/OSF.IO/BY8QM</a></li>
     </ol></details>
   </div>
   <p class="r-next"><b>Ko darīt tālāk?</b> Kā atpazīt mobingu un kā rīkoties, ja to piedzīvo pats, redzi kā liecinieks vai vadi komandu: <a href="mobings-ko-darit.html">«Mobings darbā: kā to atpazīt un ko darīt»</a>.</p>
@@ -323,9 +326,9 @@
     var h = '<div class="gauge"><div class="stops" role="radiogroup" style="grid-template-columns:repeat('+n+',1fr)">'+
       '<div class="rail" style="left:'+pad+'%;right:'+pad+'%"></div>';
     opts.forEach(function(o){
-      h += '<label class="stop"><input type="radio" name="'+name+'" value="'+o.v+'" aria-label="'+esc(o.l)+'"><span class="num">'+o.v+'</span><span class="dot"></span></label>';
+      h += '<label class="stop"><input type="radio" name="'+name+'" value="'+o.v+'" aria-label="'+esc(o.l)+'"><span class="num">'+o.v+'</span><span class="dot"></span><span class="olab" aria-hidden="true">'+o.l+'</span></label>';
     });
-    return h + '</div><div class="ends"><span>'+ends[0]+'</span><span>'+ends[1]+'</span></div></div>';
+    return h + '</div></div>';
   }
   function scalemini(opts){ return '<div class="scalemini">'+opts.map(function(o){return '<span><b>'+o.v+'</b>'+o.l+'</span>';}).join("")+'</div>'; }
   function picks(name, opts){
